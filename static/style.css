@@ -1,0 +1,32 @@
+ 
+
+div.input-group {
+    margin-top:20px;
+   
+}
+
+div.button-group { 
+    margin-top:20px;
+}
+
+div.button-group button{ 
+    float: right;
+}
+
+
+table.button-group { 
+   width:100%;
+}
+
+table.button-group td{ 
+    width:33%; 
+    text-align:center; 
+    vertical-align:middle;
+}
+
+table.list td.selection{  
+    text-align:center; 
+    vertical-align:middle;
+}
+
+

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+{% include 'header.html' %}
+</head>
+<body>
+
+    <div class="container">
+ 
+        <h3> [{{result.id}}] 번 글 수정  </h3> 
+        <form role="form">
+            <div class="form-group"> 
+                <input type="email" class="form-control" placeholder="Enter email" name="email" value="{{result.email}}">
+            </div>
+           
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="제목" name="title" value="{{result.title}}">
+            </div>
+
+            <div class="form-group">
+                <textarea class="form-control" rows="3" placeholder="본문" name="article" >{{result.article}}</textarea> 
+            </div>
+
+            <div class='button-group'>
+                <button type="button" class="btn btn-default cancel" >취소</button>
+                <button type="button" class="btn btn-default update" >수정완료</button>
+            </div>
+
+        </form>
+    </div>
+    
+</body>
+<script>
+    $('button.cancel').click(function(e) {
+        window.location = "/articles/{{result.id}}";
+    });
+
+
+    $('button.update').click(function(e) {
+
+        email = $('input[name=email]').val();
+        title = $('input[name=title]').val();
+        article = $('textarea[name=article]').val(); 
+
+
+        $.ajax({
+                    type: "PUT",
+                    url: "/articles/{{result.id}}",
+                    data:{'email':email, 'title':title, 'article':article},
+                    async:false,
+
+                    success: function (result) {
+                        window.location= "/articles/{{result.id}}"
+                    },
+                    error: function (textStatus, errorThrown) { 
+                        window.location= "/articles/{{result.id}}"
+                    }
+        });//ajax
+    });
+
+ 
+</script>
+
+</html>

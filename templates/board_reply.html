@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+{% include 'header.html' %}
+</head>
+<body>
+    <div class="container">
+        <h3> [{{result.id}}] 번 글에대한 답글  </h3> 
+       
+        <blockquote>
+        <p>{{result.article}}</p>
+            <footer>
+                <cite title="Source Title"><a href="/articles/{{result.id}}}">[{{result.id}}]&nbsp;{{result.title}}</a></cite>by {{result.email_html}} 
+            </footer>
+        </blockquote> 
+
+        <form role="form">
+            <div class="form-group"> 
+                <input type="email" class="form-control" placeholder="Enter email" name="email" >
+            </div>
+             <div class="form-group"> 
+                <input type="password" class="form-control" placeholder="Enter Password" name="password">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="제목" name="title">
+            </div>
+
+            <div class="form-group">
+                <textarea class="form-control" rows="3" placeholder="본문" name="article" ></textarea> 
+            </div>
+
+            <div class='button-group'>
+                <button type="button" class="btn btn-default cancel" >취소</button>
+                <button type="button" class="btn btn-default reply" >답글달기</button>
+            </div>
+
+        </form>
+    </div>
+    
+</body>
+<script>
+    $('button.cancel').click(function(e) {
+        window.location = "/articles/{{result.id}}";
+    });
+
+
+     $('button.reply').click(function(e) {
+
+        email = $('input[name=email]').val();
+        title = $('input[name=title]').val();
+        password = $('input[name=password]').val();
+        article = $('textarea[name=article]').val(); 
+
+        pid = {{result.id}}
+        ppid = {{result.pid}}
+        gid = {{result.gid}}
+        gorder = {{result.gorder}}
+        level = {{result.level}}
+
+
+        $.ajax({
+                    type: "POST",
+                    url: "/articles",
+                    data:{'email':email, 'title':title, 'password':password,'article':article, 
+                    'pid':pid, 'ppid':ppid,'gid':gid, 'gorder':gorder, 'level':level},
+                    async:false,
+
+                    success: function (result) {
+                        alert("답글이 달렸습니다.");
+                    },
+                    error: function (textStatus, errorThrown) {  
+                        alert("답글 실패");
+                    }
+        });//ajax
+
+        window.location = "/articles/{{result.id}}";
+
+
+    });
+
+ 
+</script>
+
+</html>

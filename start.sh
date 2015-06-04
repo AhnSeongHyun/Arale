@@ -1,0 +1,1 @@
+uwsgi flask-rest-board.ini
