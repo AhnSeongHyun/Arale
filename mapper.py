@@ -1,13 +1,8 @@
-import os
-import sys
-from sqlalchemy import create_engine
+# -*- coding:utf-8 -*-
+__author__ = 'sh84.ahn@gmail.com'
+
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, DateTime, Text
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy import desc
-
-from sqlalchemy import ForeignKey
-from sqlalchemy.orm import relationship, backref
 
 import datetime
 Base = declarative_base()
@@ -77,7 +72,3 @@ class Board(Base):
 
         return  html
 
-
-if __name__ == '__main__':
-    engine = create_engine('mssql+pyodbc://@localhost\SQLEXPRESS/BRAAVOS')
-    Base.metadata.create_all(engine)

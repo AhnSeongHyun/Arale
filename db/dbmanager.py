@@ -3,9 +3,11 @@ __author__ = 'sh84.ahn@gmail.com'
 
 
 import datetime
-from sqlalchemy import create_engine, desc 
-from mapper import *
+from sqlalchemy import create_engine, desc
 from sqlalchemy import func 
+from sqlalchemy.orm import sessionmaker
+from mapper import *
+
 
 CONNECTION_STRING = 'sqlite:///db/db.sqlite'
 
@@ -18,6 +20,7 @@ class OrmManager(object):
             engine = create_engine(CONNECTION_STRING)
             Session = sessionmaker(bind=engine) 
             self.mssql_session = Session()
+
         except Exception as e:
             raise e
 

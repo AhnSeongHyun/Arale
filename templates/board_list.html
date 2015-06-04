@@ -1,84 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-<head> 
-{% include 'header.html' %}
+<head>
+    {% include 'header.html' %}
 </head>
 <body>
-    <div class="container">
-        <h3> 게시판 </h3>
-        <table class="table table-hover list">
-            <tr>
-                <td class="info"><strong>#</strong></td>
-                <td class="info"><strong>작성일시</strong></td>
-                <td class="info"><strong>제목</strong></td>
-                <td class="info"><strong>작성자</strong></td>
-                <td class="info selection"><strong>선택</strong></td>
-            </tr>
+<div class="container">
+    <h3> 게시판 </h3>
+    <table class="table table-hover list">
+        <tr>
+            <td class="info"><strong>#</strong></td>
+            <td class="info"><strong>작성일시</strong></td>
+            <td class="info"><strong>제목</strong></td>
+            <td class="info"><strong>작성자</strong></td>
+            <td class="info selection"><strong>선택</strong></td>
+        </tr>
 
-            {% for item in result %}
-            <tr>
-                <td>{{item.id}}</td>
-                <td>{{item.ctime_html}}</td> 
-                <td>{{item.title_html|safe}}</td>
-                <td>{{item.email_html}}</td>
-                <td class="selection"><input type="checkbox" class='select' data-id={{item.id}}></td>
-            </tr> 
-            {% endfor %} 
+        {% for item in result %}
+        <tr>
+            <td>{{item.id}}</td>
+            <td>{{item.ctime_html}}</td>
+            <td>{{item.title_html|safe}}</td>
+            <td>{{item.email_html}}</td>
+            <td class="selection"><input type="checkbox" class='select' data-id={{item.id}}></td>
+        </tr>
+        {% endfor %}
 
-        </table>
-        <hr/>
+    </table>
+    <hr/>
 
-        <table class='button-group'>
-            <tr>
-                <td>
-                    <button type="button" class="btn btn-default write" style="float:left">글쓰기</button>
-                </td>
-                <td>
-                    <ul class="pagination" >
-                        {% for p in page_list %}
-                            {% if p.active %}
-                                <li class='active'><a href="?page={{p.title}}">{{p.title}}</a></li>
-                            {%else%}
-                                <li><a href="?page={{p.title}}">{{p.title}}</a></li>
-                        {% endif %}
-                        {% endfor %}
-                    </ul>
-                </td>
-                <td>
-                    <button type="button" class="btn btn-default delchecked" style="float:right">선택삭제</button>
-                </td>
-            </tr>
-        </table>
-  </div><!-- container --> 
+    <table class='button-group'>
+        <tr>
+            <td>
+                <button type="button" class="btn btn-default write" style="float:left">글쓰기</button>
+            </td>
+            <td>
+                <ul class="pagination" >
+                    {% for p in page_list %}
+                    {% if p.active %}
+                    <li class='active'><a href="?page={{p.title}}">{{p.title}}</a></li>
+                    {%else%}
+                    <li><a href="?page={{p.title}}">{{p.title}}</a></li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </td>
+            <td>
+                <button type="button" class="btn btn-default delchecked" style="float:right">선택삭제</button>
+            </td>
+        </tr>
+    </table>
+</div><!-- container -->
 <script>
 
     $('button.write').click(function(e) {
-        console.log('test');
-        window.location = "/articles/new";
+        window.location = "/test/articles/new";
     });
- 
+
 
     $('button.delchecked').click(function(e) {
 
         var checkbox = $('input:checked');
         var successCount = 0;
-        var failIdArr = []  
+        var failIdArr = [];
 
 
         checkbox.each(function() {
 
-        var id =$(this).data("id");
+            var id =$(this).data("id");
             $.ajax({
-                    type: "DELETE",
-                    url: "/articles/" + id,
-                    async:false,
+                type: "DELETE",
+                url: "/api/articles/" + id,
+                async:false,
 
-                    success: function (result) {
-                        successCount++; 
-                    },
-                    error: function (textStatus, errorThrown) {
-                        failIdArr.push(JSON.parse(textStatus.responseText).id)
-                    }
+                success: function (result) {
+                    successCount++;
+                },
+                error: function (textStatus, errorThrown) {
+                    failIdArr.push(JSON.parse(textStatus.responseText).id)
+                }
             });//ajax
         });
 
@@ -88,19 +87,19 @@
         else if(successCount == checkbox.length) {
             if(successCount>1)
                 alert("모두 삭제 하였습니다.");
-            
+
             else
-                alert("삭제 하였습니다.");    
+                alert("삭제 하였습니다.");
         }
         else {
             var msg = failIdArr.join(',')
             alert(msg+'번 글이 삭제 되지 않았습니다.');
         }
-		
-		window.location = "/"
+
+        window.location = "/"
 
     });
-    
+
 </script>
 
 </body>
