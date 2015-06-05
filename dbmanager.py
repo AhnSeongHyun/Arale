@@ -130,7 +130,6 @@ class OrmManager(object):
         except Exception as e:
             self.close()
             raise e  
- 
 
     def select_by_id(self, id):
 

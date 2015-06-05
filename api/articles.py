@@ -19,23 +19,37 @@ def write_article():
         return APIResponse(code=200, data=None).json
 
     except Exception as e:
-        print e
         return APIResponse(code=500, data=None, msg=e).json
-
 
 
 @app.route('/api/articles/<int:id>',  methods=[DELETE])
 def delete_article(id):
     db_manager = OrmManager()
-
+    try:
+        db_manager.delete(id)
+        return APIResponse(code=200, data=None).json
+    except Exception as e:
+        return APIResponse(code=500, data=None, msg=e).json
 
 
 @app.route('/api/articles/<int:id>',  methods=[PUT])
 def modify_article(id):
     db_manager = OrmManager()
+    try:
+        result = db_manager.update(id, request.form)
+        return APIResponse(code=200, data=result).json
+    except Exception as e:
+        return APIResponse(code=500, data=None, msg=e).json
 
 
 @app.route('/api/articles/<int:id>',  methods=[GET])
 def get_article(id):
     db_manager = OrmManager()
+    try:
+        result = db_manager.select_by_id(id)
+        return APIResponse(code=200, data=result).json
+    except Exception as e:
+        return APIResponse(code=500, data=None, msg=e).json
+
+
 
