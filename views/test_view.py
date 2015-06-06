@@ -5,8 +5,6 @@ import traceback
 from board_base import *
 
 
-
-
 @app.route('/test')
 def test_index():
     try:

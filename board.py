@@ -13,8 +13,10 @@ from paginator import *
 __g_orm = OrmManager()
 
 import api
-import views
+#import views
 
+if __name__ == "__main__":
+    app.run()
 
 # @app.route('/articles',  methods=[GET, POST])
 # def articles():
@@ -45,62 +47,62 @@ import views
 
 
 
-def is_ajax(request):
-    return request.is_xhr
-
-
-
-@app.route('/articles/update/<id>', methods=[GET])
-def update_article(id):
-    result = None
-    try:
-        result = __g_orm.select_by_id(id)
-    except Exception as e:
-        print(e)
-    return render_template('board_update.html', result=result, title=u'수정하기')
-
-
-@app.route('/articles/reply/<id>', methods=[GET])
-def reply_article(id):
-    result = None
-    try:
-        result = __g_orm.select_by_id(id)
-    except Exception as e:
-        print(e)
-
-    return render_template('board_reply.html', result=result, title=u'답글달기')
-
-
-@app.route('/articles/<id>', methods=[GET, DELETE, PUT])
-def article(id):
-    if request.method == GET:
-        result = None
-        try:
-            result = __g_orm.select_by_id(id)
-        except Exception as e:
-            print(e)
-
-        return render_template('board_view.html', result=result, title=u'글 보기')
-
-    elif request.method == PUT:
-        try:
-            result = __g_orm.update(id, request.form)
-        except Exception as e:
-            print(e)
-            return jsonify({"id":id}), 500
-
-        return jsonify({"id":id}), 200
-
-    elif request.method == 'DELETE':
-        response = None
-        try:
-            response = jsonify({"id":id})
-            __g_orm.delete(id)
-            return jsonify({"id":id}), 200
-
-        except Exception as e:
-            print(e)
-            return jsonify({"id":id}), 500
-
-    
+# def is_ajax(request):
+#     return request.is_xhr
+#
+#
+#
+# @app.route('/articles/update/<id>', methods=[GET])
+# def update_article(id):
+#     result = None
+#     try:
+#         result = __g_orm.select_by_id(id)
+#     except Exception as e:
+#         print(e)
+#     return render_template('board_update.html', result=result, title=u'수정하기')
+#
+#
+# @app.route('/articles/reply/<id>', methods=[GET])
+# def reply_article(id):
+#     result = None
+#     try:
+#         result = __g_orm.select_by_id(id)
+#     except Exception as e:
+#         print(e)
+#
+#     return render_template('board_reply.html', result=result, title=u'답글달기')
+#
+#
+# @app.route('/articles/<id>', methods=[GET, DELETE, PUT])
+# def article(id):
+#     if request.method == GET:
+#         result = None
+#         try:
+#             result = __g_orm.select_by_id(id)
+#         except Exception as e:
+#             print(e)
+#
+#         return render_template('board_view.html', result=result, title=u'글 보기')
+#
+#     elif request.method == PUT:
+#         try:
+#             result = __g_orm.update(id, request.form)
+#         except Exception as e:
+#             print(e)
+#             return jsonify({"id":id}), 500
+#
+#         return jsonify({"id":id}), 200
+#
+#     elif request.method == 'DELETE':
+#         response = None
+#         try:
+#             response = jsonify({"id":id})
+#             __g_orm.delete(id)
+#             return jsonify({"id":id}), 200
+#
+#         except Exception as e:
+#             print(e)
+#             return jsonify({"id":id}), 500
+#
+#
     
