@@ -54,3 +54,16 @@ class Member(Base):
 
     def __str__(self):
         return str(self.__dict__)
+
+
+
+def create_database():
+    from sqlalchemy.ext.automap import automap_base
+    from sqlalchemy.orm import Session
+    from sqlalchemy import create_engine
+
+    engine = create_engine('sqlite:///db.sqlite')
+    Base.metadata.create_all(engine)
+
+
+create_database()
