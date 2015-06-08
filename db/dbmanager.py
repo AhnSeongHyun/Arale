@@ -103,7 +103,84 @@ class OrmManager(object):
             return total_count
         except Exception as e:
             self.close()
-            raise e  
+            raise e
+
+    def insert_reply(self, data):
+
+        try:
+
+            self.open()
+            reply = Reply(article_id=data['article_id'],
+                            contents=data['contents'],
+                            ctime=datetime.datetime.now(),
+                            mtime=None,
+                            parent_reply_id=None)
+
+            self.session.add(reply)
+            self.session.commit()
+            self.session.refresh(reply)
+            self.session.close()
+            return reply.id
+        except Exception as e:
+            self.close()
+            raise e
+
+    def update_reply(self, id, data):
+        try:
+            self.open()
+            article = self.session.query(Reply).filter(Reply.id==id).one()
+            article.contents = data['contents']
+            article.mtime = datetime.datetime.now()
+            self.session.commit()
+            result = self.session.query(Reply).filter(Reply.id==id).one()
+            self.close()
+            return result
+        except Exception as e:
+            self.close()
+            raise e
+
+    def delete_reply(self, id):
+        try:
+            self.open()
+            reply = self.session.query(Reply).filter(Reply.id==id).one()
+            self.session.delete(reply)
+            self.session.commit()
+            self.session.close()
+
+        except Exception as e:
+            self.close()
+            raise e
+
+
+    def select_reply_by_id(self, id):
+        try:
+            self.open()
+            reply = self.session.query(Reply).filter(Reply.id==id).one()
+            self.close()
+            return reply
+        except Exception as e:
+            self.close()
+            raise e
+
+
+    def select_reply_by_article(self, article_id):
+        try:
+            self.open()
+            replies = self.session.query(Reply).filter(Reply.article_id==article_id).all()
+            self.close()
+            return replies
+        except Exception as e:
+            self.close()
+            raise e
+
+    def count_reply_by_article(self, article_id):
+        try:
+            self.open()
+            total_count = self.session.query(func.count(Reply.id)).filter(Reply.article_id==article_id).scalar()
+            return total_count
+        except Exception as e:
+            self.close()
+            raise e
 
     def close(self):
         if self.session:

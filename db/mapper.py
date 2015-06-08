@@ -29,15 +29,17 @@ class Reply(Base):
     __tablename__ = 'reply'
     id = Column(Integer, primary_key=True)
     article_id = Column(Integer, nullable=False)
-    pid = Column(Integer, nullable=True)
     contents = Column(Text, nullable=True)
     ctime = Column(DateTime, nullable=False)
+    mtime = Column(DateTime, nullable=True)
+    parent_reply_id = Column(Integer, nullable=True)
 
-    def __init__(self, title, contents, ctime, mtime):
-        self.title = title
+    def __init__(self, article_id, contents, ctime, mtime, parent_reply_id=None):
+        self.article_id = article_id
         self.contents = contents
         self.ctime = ctime
         self.mtime = mtime
+        self.parent_reply_id = parent_reply_id
 
     def __str__(self):
         return str(self.__dict__)
