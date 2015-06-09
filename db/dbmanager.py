@@ -79,7 +79,7 @@ class OrmManager(object):
             self.close()
             raise e
 
-    def select_articles(self, start_index, paging_size, keyword=None):
+    def select_articles(self, start_index=0, paging_size=30, keyword=None):
         try:
             self.open()
             q = self.session.query(Article)
