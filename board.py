@@ -6,14 +6,9 @@ reload(sys)
 sys.setdefaultencoding('ms949')
 
 from board_base import *
-from dbmanager import *
-from page import *
-from paginator import *
-
-__g_orm = OrmManager()
 
 import api
-#import views
+import views
 
 if __name__ == "__main__":
     app.run()

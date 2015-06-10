@@ -13,7 +13,7 @@ from flask import jsonify
 from flask import render_template
 
 
-app = Flask(__name__, static_url_path = "", static_folder = "static")
+app = Flask(__name__, static_url_path = "", static_folder="bower_components")
 
 #HTTP_METHOD
 GET     = 'GET'

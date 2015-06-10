@@ -11,16 +11,19 @@ Base = declarative_base()
 class Article(Base):
     __tablename__ = 'article'
     id = Column(Integer, primary_key=True)
+
     title = Column(Text, nullable=False)
     contents = Column(Text, nullable=True)
     ctime = Column(DateTime, nullable=False)
     mtime = Column(DateTime, nullable=True)
+    user_id =Column(Integer, nullable=False)
 
-    def __init__(self, title, contents, ctime, mtime):
+    def __init__(self, title, contents, ctime, mtime, user_id):
         self.title = title
         self.contents = contents
         self.ctime = ctime 
         self.mtime = mtime
+        self.user_id = user_id
 
     def __str__(self):
         return str(self.__dict__)
@@ -48,11 +51,16 @@ class Member(Base):
     __tablename__ = 'member'
     id = Column(Integer, primary_key=True)
     user = Column(String(50), nullable=False)
+    name = Column(String(20), nullable=False)
     password = Column(String(50), nullable=False)
 
-    def __init__(self, user, password):
+
+
+    def __init__(self, user, password, name):
         self.user = user
         self.password = password
+        self.name = name
+
 
     def __str__(self):
         return str(self.__dict__)

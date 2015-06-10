@@ -15,10 +15,9 @@ def get_article_list():
 
         db_manager = OrmManager()
         result = db_manager.select_articles(start_index=start_index,
-                                   paging_size=paging_size,
-                                   keyword=keyword)
+                                            paging_size=paging_size,
+                                            keyword=keyword)
 
-        # todo : implement
         return APIResponse(code=200, data=result).json
 
     except Exception as e:

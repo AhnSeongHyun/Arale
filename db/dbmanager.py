@@ -30,7 +30,11 @@ class OrmManager(object):
 
             self.open()
 
-            article = Article(title=data['title'], contents=data['contents'], ctime=datetime.datetime.now(), mtime=None)
+            article = Article(title=data['title'],
+                              contents=data['contents'],
+                              ctime=datetime.datetime.now(),
+                              mtime=None,
+                              user_id=data['user_id'])
 
             self.session.add(article)
             self.session.commit()
@@ -181,6 +185,19 @@ class OrmManager(object):
         except Exception as e:
             self.close()
             raise e
+
+
+    def select_member(self, user):
+        try:
+            self.open()
+            member = self.session.query(Member).filter(Member.user==user).one()
+            self.close()
+            return member
+        except Exception as e:
+            self.close()
+            raise e
+
+
 
     def close(self):
         if self.session:
