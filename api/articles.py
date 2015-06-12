@@ -5,6 +5,7 @@ from board_base import *
 from db.dbmanager import OrmManager
 from api_response_data import APIResponse
 
+
 @app.route('/api/articles',  methods=[GET])
 def get_article_list():
 
