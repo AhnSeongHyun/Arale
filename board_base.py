@@ -14,7 +14,7 @@ from flask import render_template
 
 
 app = Flask(__name__, static_url_path = "", static_folder="bower_components")
-
+app.debug = True
 #HTTP_METHOD
 GET     = 'GET'
 POST    = 'POST'

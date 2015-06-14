@@ -11,7 +11,7 @@ def get_article_list():
 
     try:
         start_index = request.args.get("start_index", 0)
-        paging_size = request.args.get("paging_size", 0)
+        paging_size = request.args.get("paging_size", 30)
         keyword = request.args.get("keyword", None)
 
         db_manager = OrmManager()

@@ -48,6 +48,7 @@ class OrmManager(object):
     def update_article(self, id, data):
         try:
             self.open()
+
             article = self.session.query(Article).filter(Article.id == id).one()
 
             article.title = data['title']
@@ -202,3 +203,5 @@ class OrmManager(object):
     def close(self):
         if self.session:
                 self.session.close()
+
+

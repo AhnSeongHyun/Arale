@@ -3,12 +3,22 @@ __author__ = 'sh84.ahn@gmail.com'
 
 
 from board_base import *
+from db.dbmanager import OrmManager
 
 
 @app.route('/admin')
 def admin():
-    # TODO : implement
-    return render_template("admin.html", title="ADMIN")
+    start_index = request.args.get("start_index", 0)
+    paging_size = request.args.get("paging_size", 30)
+    keyword = request.args.get("keyword", None)
+
+    db_manager = OrmManager()
+    result = db_manager.select_articles(start_index=start_index,
+                                        paging_size=paging_size,
+                                        keyword=keyword)
+
+
+    return render_template("admin.html", title="ADMIN", result=result)
 
 
 @app.route('/admin/member')

@@ -13,6 +13,7 @@ import views
 if __name__ == "__main__":
     app.run()
 
+
 # @app.route('/articles',  methods=[GET, POST])
 # def articles():
 #     result = None
