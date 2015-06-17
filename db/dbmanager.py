@@ -198,6 +198,16 @@ class OrmManager(object):
             self.close()
             raise e
 
+    def select_member_by_id(self, user_id):
+        print user_id
+        try:
+            self.open()
+            member = self.session.query(Member).filter(Member.id == user_id).one()
+            self.close()
+            return member
+        except Exception as e:
+            self.close()
+            raise e
 
 
     def close(self):

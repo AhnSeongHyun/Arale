@@ -33,7 +33,7 @@
                     <td>{{r.title}}</td>
                     <td>{{r.contents}}</td>
                     <td>{{r.ctime}}</td>
-                    <td>{{r.user_id}}</td>
+                    <td>{{r.author}}</td>
                 </tr>
 
                 {% endfor %}
@@ -93,7 +93,17 @@ $("#write-form-modal-save").click(function() {
     var title =    $("#write-form-modal-title").val();
     var contents = $("#write-form-modal-contents").val();
 
+   $.post("/api/articles", { "title": title, "contents":contents, "user_id":0 },
+      function(result){
+          if(result.meta.code==200) {
+              $("#write-form-modal").modal('hide');
 
+          }
+          else{
+              alert("실패");
+          }
+
+      }, "json");
 
 });
 </script>
