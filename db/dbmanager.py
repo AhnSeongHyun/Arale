@@ -81,6 +81,7 @@ class OrmManager(object):
             self.close()
             return article
         except Exception as e:
+
             self.close()
             raise e
 

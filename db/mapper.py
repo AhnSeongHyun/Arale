@@ -16,7 +16,7 @@ class Article(Base):
     contents = Column(Text, nullable=True)
     ctime = Column(DateTime, nullable=False)
     mtime = Column(DateTime, nullable=True)
-    user_id =Column(Integer, nullable=False)
+    user_id = Column(Integer, nullable=False)
 
     def __init__(self, title, contents, ctime, mtime, user_id):
         self.title = title
@@ -27,6 +27,23 @@ class Article(Base):
 
     def __str__(self):
         return str(self.__dict__)
+
+    @property
+    def to_dict(self):
+
+
+        if self.mtime:
+            mtime_value = self.mtime.strftime("%Y/%m/%d %H:%M:%S")
+        else:
+            mtime_value = self.mtime
+
+        return {'id': self.id,
+                'title': self.title,
+                'contents': self.contents,
+                'ctime': self.ctime.strftime("%Y/%m/%d %H:%M:%S"),
+                'mtime': mtime_value,
+                'user_id': self.user_id}
+
 
 class Reply(Base):
     __tablename__ = 'reply'
@@ -47,6 +64,13 @@ class Reply(Base):
     def __str__(self):
         return str(self.__dict__)
 
+
+    @property
+    def to_dict(self):
+        # TODO : IMPLEMENT
+        pass
+
+
 class Member(Base):
     __tablename__ = 'member'
     id = Column(Integer, primary_key=True)
@@ -64,6 +88,12 @@ class Member(Base):
 
     def __str__(self):
         return str(self.__dict__)
+
+
+    @property
+    def to_dict(self):
+        # TODO : IMPLEMENT
+        pass
 
 
 

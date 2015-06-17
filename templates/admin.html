@@ -30,7 +30,7 @@
 
                 <tr>
                     <td>{{r.id}}</td>
-                    <td>{{r.title}}</td>
+                    <td><a href="#" onclick="javascript:onClickArticle({{r.id}})">{{r.title}}</a></td>
                     <td>{{r.contents}}</td>
                     <td>{{r.ctime}}</td>
                     <td>{{r.author}}</td>
@@ -68,44 +68,64 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+
+
+
 {% endblock %}
 
 
 
 {% block script %}
 <script>
-$("#delete").click(function() {
+    $("#delete").click(function() {
 
 
-});
-
-$("#write").click(function() {
-    $("#write-form-modal-title").val("");
-    $("#write-form-modal-contents").val("");
+    });
 
 
-    $("#write-form-modal").modal('show');
-});
+    function onClickArticle(article_id){
 
 
-$("#write-form-modal-save").click(function() {
+        $.getJSON( "/api/articles/"+article_id, function( result ) {
 
-    var title =    $("#write-form-modal-title").val();
-    var contents = $("#write-form-modal-contents").val();
+            $("#write-form-modal-title").val(result.data.title);
+            $("#write-form-modal-contents").val(result.data.contents);
 
-   $.post("/api/articles", { "title": title, "contents":contents, "user_id":0 },
-      function(result){
-          if(result.meta.code==200) {
-              $("#write-form-modal").modal('hide');
 
-          }
-          else{
-              alert("실패");
-          }
+            $("#write-form-modal").modal('show');
 
-      }, "json");
+        });
 
-});
+
+    }
+
+    $("#write").click(function() {
+        $("#write-form-modal-title").val("");
+        $("#write-form-modal-contents").val("");
+
+
+        $("#write-form-modal").modal('show');
+    });
+
+
+    $("#write-form-modal-save").click(function() {
+
+        // TODO : 저장시 INSERT_UPDATE가 되어야함. 
+
+        var title =    $("#write-form-modal-title").val();
+        var contents = $("#write-form-modal-contents").val();
+
+        $.post("/api/articles", { "title": title, "contents":contents, "user_id":0 },
+                function(result){
+                    if(result.meta.code==200) {
+                        $("#write-form-modal").modal('hide');
+                    }
+                    else{
+                        alert("write fail");
+                    }
+                }, "json");
+
+    });
 </script>
 
 {% endblock %}
