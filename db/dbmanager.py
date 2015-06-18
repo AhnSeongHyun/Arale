@@ -7,7 +7,7 @@ from sqlalchemy import create_engine, desc
 from sqlalchemy import func 
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import or_
-from mapper import *
+from .mapper import Article, Reply, Member
 
 CONNECTION_STRING = 'sqlite:///db/db.sqlite'
 
@@ -44,6 +44,36 @@ class OrmManager(object):
         except Exception as e:
             self.close()
             raise e
+
+    def insert_or_update_article(self, data):
+        try:
+            self.open()
+            article = Article(title=data['title'],
+                              contents=data['contents'],
+                              ctime=datetime.datetime.now(),
+                              mtime=None,
+                              user_id=data['user_id'])
+
+            exist_article = self.session.query(Article).filter(Article.id == id).scalar()
+            if exist_article: #modify
+                exist_article.title = article.title
+                exist_article.contents = article.contents
+                exist_article.ctime = article.ctime
+                exist_article.mtime = article.mtime
+                exist_article.user_id = article.user_id
+
+            else:
+                self.session.add(article)
+
+            self.session.commit()
+            self.session.refresh(article)
+            self.session.close()
+            return article.id
+        except Exception as e:
+            self.close()
+            raise e
+
+
 
     def update_article(self, id, data):
         try:
@@ -200,7 +230,7 @@ class OrmManager(object):
             raise e
 
     def select_member_by_id(self, user_id):
-        print user_id
+
         try:
             self.open()
             member = self.session.query(Member).filter(Member.id == user_id).one()

@@ -3,7 +3,7 @@ __author__ = 'sh84.ahn@gmail.com'
 
 from board_base import *
 from db.dbmanager import OrmManager
-from api_response_data import APIResponse
+from .api_response_data import APIResponse
 
 
 @app.route('/api/articles',  methods=[GET])
@@ -30,7 +30,7 @@ def get_article_list():
 def write_article():
     try:
         db_manager = OrmManager()
-        article_id = db_manager.insert_article(request.form)
+        article_id = db_manager.insert_or_update_article(request.form)
         return APIResponse(code=200, data={'article_id': article_id}).json
 
     except Exception as e:
@@ -64,10 +64,10 @@ def get_article(id):
     try:
         db_manager = OrmManager()
         result = db_manager.select_article_by_id(id)
-        print result
+
         return APIResponse(code=200, data=result.to_dict).json
     except Exception as e:
-        print e
+
         return APIResponse(code=500, data=None, msg=str(e)).json
 
 

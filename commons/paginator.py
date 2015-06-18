@@ -2,7 +2,7 @@
 __author__ = 'sh84.ahn@gmail.com'
 
 
-from page import Page
+from .page import Page
 
 class Paginator(object):
     page_per_count = 5 

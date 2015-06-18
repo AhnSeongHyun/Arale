@@ -21,7 +21,6 @@ def admin():
         result[i].ctime = result[i].ctime.strftime("%Y/%m/%d %H:%M:%S")
         result[i].author = db_manager.select_member_by_id(result[i].user_id).name
 
-
     return render_template("admin.html", title="ADMIN", result=result)
 
 

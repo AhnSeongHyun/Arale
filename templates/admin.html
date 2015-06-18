@@ -30,7 +30,7 @@
 
                 <tr>
                     <td>{{r.id}}</td>
-                    <td><a href="#" onclick="javascript:onClickArticle({{r.id}})">{{r.title}}</a></td>
+                    <td><a href="#" onclick="javascript:showArticle({{r.id}})">{{r.title}}</a></td>
                     <td>{{r.contents}}</td>
                     <td>{{r.ctime}}</td>
                     <td>{{r.author}}</td>
@@ -62,7 +62,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal" >Close</button>
-                <button type="button" class="btn btn-primary" id="write-form-modal-save">Save changes</button>
+                <button type="button" class="btn btn-primary" id="write-form-modal-save">insert</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -70,6 +70,24 @@
 
 
 
+<div class="modal fade" id="modify-form-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <input type="text" class="form-control" placeholder="title" id="modify-form-modal-id" readonly  />
+            <div class="modal-header">
+
+                <input type="text" class="form-control" placeholder="title" id="modify-form-modal-title"/>
+            </div>
+            <div class="modal-body">
+                <textarea type="text" class="form-control" placeholder="Insert Contents" id="modify-form-modal-contents"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" >Close</button>
+                <button type="button" class="btn btn-primary" id="modify-form-modal-save">Save changes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 {% endblock %}
 
@@ -83,34 +101,41 @@
     });
 
 
-    function onClickArticle(article_id){
-
-
+    function showArticle(article_id){
         $.getJSON( "/api/articles/"+article_id, function( result ) {
-
-            $("#write-form-modal-title").val(result.data.title);
-            $("#write-form-modal-contents").val(result.data.contents);
-
-
-            $("#write-form-modal").modal('show');
-
+            $("#modify-form-modal-id").val(result.data.id);
+            $("#modify-form-modal-title").val(result.data.title);
+            $("#modify-form-modal-contents").val(result.data.contents);
+            $("#modify-form-modal").modal('show');
         });
-
-
     }
+
+    $("#modify-form-modal-save").click(function() {
+        var id =    $("#modify-form-modal-id").val();
+        var title =    $("#modify-form-modal-title").val();
+        var contents = $("#write-form-modal-contents").val();
+
+//        $.put("/api/articles", { "id":id, "title": title, "contents":contents, "user_id":0 },
+//                function(result){
+//                    if(result.meta.code==200) {
+//                        $("#modify-form-modal").modal('hide');
+//                    }
+//                    else{
+//                        alert("write fail");
+//                    }
+//                }, "json");
+
+    });
+
 
     $("#write").click(function() {
         $("#write-form-modal-title").val("");
         $("#write-form-modal-contents").val("");
-
-
         $("#write-form-modal").modal('show');
     });
 
 
     $("#write-form-modal-save").click(function() {
-
-        // TODO : 저장시 INSERT_UPDATE가 되어야함. 
 
         var title =    $("#write-form-modal-title").val();
         var contents = $("#write-form-modal-contents").val();
