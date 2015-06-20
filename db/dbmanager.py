@@ -77,6 +77,7 @@ class OrmManager(object):
 
     def update_article(self, id, data):
         try:
+
             self.open()
 
             article = self.session.query(Article).filter(Article.id == id).one()
@@ -89,6 +90,7 @@ class OrmManager(object):
             self.close()
             return result
         except Exception as e:
+
             self.close()
             raise e
 

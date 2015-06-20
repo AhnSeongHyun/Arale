@@ -36,7 +36,7 @@ def modify_reply(id):
     try:
         db_manager = OrmManager()
         result = db_manager.update_reply(id, request.form)
-        return APIResponse(code=200, data=result).json
+        return APIResponse(code=200, data=result.to_dict).json
     except Exception as e:
         return APIResponse(code=500, data=None, msg=e).json
 

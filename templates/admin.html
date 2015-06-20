@@ -18,6 +18,7 @@
             <table data-toggle="table">
                 <thead>
                 <tr>
+                    <th> <input type="checkbox" id="checkbox-all"> </th>
                     <th>id</th>
                     <th>title</th>
                     <th>contents</th>
@@ -29,6 +30,7 @@
                 {% for r in result %}
 
                 <tr>
+                    <td> <input type="checkbox"> </td>
                     <td>{{r.id}}</td>
                     <td><a href="#" onclick="javascript:showArticle({{r.id}})">{{r.title}}</a></td>
                     <td>{{r.contents}}</td>
@@ -62,7 +64,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal" >Close</button>
-                <button type="button" class="btn btn-primary" id="write-form-modal-save">insert</button>
+                <button type="button" class="btn btn-primary" id="write-form-modal-save">Submit</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -95,8 +97,21 @@
 
 {% block script %}
 <script>
-    $("#delete").click(function() {
 
+ 
+
+    $("#delete").click(function() {
+        $.ajax({
+            url:'/api/articles/'+id,
+            type:'DELETE',
+
+            success:function(result){
+                location.reload();
+            },
+            error:function(result) {
+                alert("fail");
+            }
+        })
 
     });
 
@@ -113,17 +128,20 @@
     $("#modify-form-modal-save").click(function() {
         var id =    $("#modify-form-modal-id").val();
         var title =    $("#modify-form-modal-title").val();
-        var contents = $("#write-form-modal-contents").val();
+        var contents =    $("#modify-form-modal-contents").val();
 
-//        $.put("/api/articles", { "id":id, "title": title, "contents":contents, "user_id":0 },
-//                function(result){
-//                    if(result.meta.code==200) {
-//                        $("#modify-form-modal").modal('hide');
-//                    }
-//                    else{
-//                        alert("write fail");
-//                    }
-//                }, "json");
+        $.ajax({
+            url:'/api/articles/'+id,
+            type:'PUT',
+            data:{ "id":id, "title": title, "contents":contents, "user_id":0 },
+            success:function(result){
+                $("#modify-form-modal").modal('hide');
+                location.reload();
+            },
+            error:function(result) {
+                alert("fail");
+            }
+        })
 
     });
 

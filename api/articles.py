@@ -22,7 +22,7 @@ def get_article_list():
         return APIResponse(code=200, data=result).json
 
     except Exception as e:
-        return APIResponse(code=500, data=None, msg=e).json
+        return APIResponse(code=500, data=None, msg=str(e)).json
 
 
 
@@ -34,7 +34,7 @@ def write_article():
         return APIResponse(code=200, data={'article_id': article_id}).json
 
     except Exception as e:
-        return APIResponse(code=500, data=None, msg=e).json
+        return APIResponse(code=500, data=None, msg=str(e)).json
 
 
 @app.route('/api/articles/<int:id>',  methods=[DELETE])
@@ -44,7 +44,7 @@ def delete_article(id):
         db_manager.delete_article(id)
         return APIResponse(code=200, data=None).json
     except Exception as e:
-        return APIResponse(code=500, data=None, msg=e).json
+        return APIResponse(code=500, data=None, msg=str(e)).json
 
 
 @app.route('/api/articles/<int:id>',  methods=[PUT])
@@ -53,9 +53,10 @@ def modify_article(id):
     try:
         db_manager = OrmManager()
         result = db_manager.update_article(id, request.form)
-        return APIResponse(code=200, data=result).json
+        print(result)
+        return APIResponse(code=200, data=result.to_dict).json
     except Exception as e:
-        return APIResponse(code=500, data=None, msg=e).json
+        return APIResponse(code=500, data=None, msg=str(e)).json
 
 
 @app.route('/api/articles/<int:id>',  methods=[GET])
