@@ -33,8 +33,20 @@ def admin_member():
 
 @app.route('/admin/article')
 def admin_article():
-    # TODO : implement
-    return render_template("article.html", title="ADMIN")
+    start_index = request.args.get("start_index", 0)
+    paging_size = request.args.get("paging_size", 30)
+    keyword = request.args.get("keyword", None)
+
+    db_manager = OrmManager()
+    result = db_manager.select_articles(start_index=start_index,
+                                        paging_size=paging_size,
+                                        keyword=keyword)
+
+    for i, r in enumerate(result):
+        result[i].ctime = result[i].ctime.strftime("%Y/%m/%d %H:%M:%S")
+        result[i].author = db_manager.select_member_by_id(result[i].user_id).name
+
+    return render_template("article.html", title="ADMIN", result=result)
 
 
 
