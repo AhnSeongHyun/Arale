@@ -221,7 +221,7 @@ class OrmManager(object):
             raise e
 
 
-    def select_member(self, user):
+    def select_member_by_user(self, user):
         try:
             self.open()
             member = self.session.query(Member).filter(Member.user == user).one()
@@ -242,6 +242,22 @@ class OrmManager(object):
             self.close()
             raise e
 
+
+    def select_members(self, start_index=0, paging_size=30, keyword=None):
+        try:
+            self.open()
+            q = self.session.query(Member)
+            if keyword:
+                q = q.filter(or_(Member.name.like("%" + keyword + "%"), Member.user.like("%" + keyword + "%")))
+
+            q = q.offset(start_index)
+            q = q.limit(paging_size)
+            result = q.all()
+            self.close()
+            return result
+        except Exception as e:
+            self.close()
+            raise e
 
     def close(self):
         if self.session:

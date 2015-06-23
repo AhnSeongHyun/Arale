@@ -26,8 +26,16 @@ def admin():
 
 @app.route('/admin/member')
 def admin_member():
-    # TODO : implement
-    return render_template("member.html", title="ADMIN")
+    start_index = request.args.get("start_index", 0)
+    paging_size = request.args.get("paging_size", 30)
+    keyword = request.args.get("keyword", None)
+
+    db_manager = OrmManager()
+    result = db_manager.select_members(start_index=start_index,
+                                       paging_size=paging_size,
+                                       keyword=keyword)
+
+    return render_template("member.html", title="ADMIN", result = result)
 
 
 
