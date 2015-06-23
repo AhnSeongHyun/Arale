@@ -5,6 +5,17 @@ __author__ = 'sh84.ahn@gmail.com'
 from board_base import *
 from db.dbmanager import OrmManager
 
+@app.route('/admin/login')
+def login():
+    return render_template('login.html')
+
+
+
+@app.route('/admin/logout')
+def logout():
+    return redirect('/admin/login')
+
+
 
 @app.route('/admin')
 def admin():

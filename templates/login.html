@@ -50,83 +50,32 @@
 
 <body>
 
-<div id="wrapper">
-
-<!-- Navigation -->
-<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-<div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-    </button>
-    <a class="navbar-brand" href="/admin">{{title}}</a>
-</div>
-<!-- /.navbar-header -->
-
-<ul class="nav navbar-top-links navbar-right">
-
-<!-- /.dropdown -->
-<li class="dropdown">
-    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
-    </a>
-    <ul class="dropdown-menu dropdown-user">
-        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-        </li>
-        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-        </li>
-        <li class="divider"></li>
-        <li><a href="/admin/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-        </li>
-    </ul>
-    <!-- /.dropdown-user -->
-</li>
-<!-- /.dropdown -->
-</ul>
-<!-- /.navbar-top-links -->
-
-<div class="navbar-default sidebar" role="navigation">
-    <div class="sidebar-nav navbar-collapse">
-        <ul class="nav" id="side-menu">
-
-            <li>
-                <a href="/admin"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-table fa-fw"></i> Management<span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <li>
-                        <a href="/admin/member">Member</a>
-                    </li>
-                    <li>
-                        <a href="/admin/article">Article</a>
-                    </li>
-                    <li>
-                        <a href="/admin/reply">Reply</a>
-                    </li>
-                </ul>
-                <!-- /.nav-second-level -->
-            </li>
-
-        </ul>
+<div class="col-md-offset-4 col-md-4">
+    <div class="login-panel panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Sign In</h3>
+        </div>
+        <div class="panel-body">
+            <form role="form">
+                <fieldset>
+                    <div class="form-group">
+                        <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus="">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Password" name="password" type="password" value="">
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input name="remember" type="checkbox" value="Remember Me">Remember Me
+                        </label>
+                    </div>
+                    <!-- Change this to a button or input when using this as a form -->
+                    <a href="javascript:;" class="btn btn-sm btn-success">Login</a>
+                </fieldset>
+            </form>
+        </div>
     </div>
-    <!-- /.sidebar-collapse -->
 </div>
-<!-- /.navbar-static-side -->
-</nav>
-
-<!-- <div id="page-wrapper"> -->
-
-
-{% block page %}
-
-{% endblock %}
-<!-- /#page-wrapper -->
-
-</div>
-<!-- /#wrapper -->
 
 <!-- jQuery -->
 
@@ -145,15 +94,8 @@
 <!-- bootstrap-table JavaScript -->
 <script src="{{ url_for('static', filename='/bootstrap-table/dist/bootstrap-table.js')}}"></script>
 
-
-<!-- <script src="../js/morris-data.js"></script> -->
-
 <!-- Custom Theme JavaScript -->
 <script src="{{ url_for('static', filename='/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js')}}"></script>
-
-{% block script %}
-
-{% endblock %}
 </body>
-
 </html>
+
