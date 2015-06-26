@@ -5,9 +5,13 @@ __author__ = 'sh84.ahn@gmail.com'
 from board_base import *
 from db.dbmanager import OrmManager
 
-@app.route('/admin/login')
+@app.route('/admin/login', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
+    if request.method=='GET':
+        return render_template('login.html')
+    else:
+        from api.member import auth
+
 
 
 

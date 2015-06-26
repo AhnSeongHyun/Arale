@@ -44,8 +44,6 @@
     <!-- bootstrap-table CSS -->
     <link href="{{ url_for('static', filename='/bootstrap-table/dist/bootstrap-table.css')}}" rel="stylesheet">
 
-
-
 </head>
 
 <body>
@@ -70,7 +68,7 @@
                         </label>
                     </div>
                     <!-- Change this to a button or input when using this as a form -->
-                    <a href="javascript:;" class="btn btn-sm btn-success">Login</a>
+                    <button id="submit" class="btn btn-sm btn-success">Login</button>
                 </fieldset>
             </form>
         </div>
@@ -96,6 +94,21 @@
 
 <!-- Custom Theme JavaScript -->
 <script src="{{ url_for('static', filename='/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js')}}"></script>
+<script>
+    $("#submit").click(function(e){
+
+        $.post("/admin/login" { "email": email, "pwd":pwd },
+                function(result){
+                    if(result.meta.code==200) {
+                        $("#write-form-modal").modal('hide');
+                    }
+                    else{
+                        alert("write fail");
+                    }
+                }, "json");
+
+    });
+</script>
 </body>
 </html>
 
