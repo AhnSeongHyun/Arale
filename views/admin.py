@@ -2,8 +2,15 @@
 __author__ = 'sh84.ahn@gmail.com'
 
 
-from plate_base import *
+from plate_base import _conf
+from plate_base import render_template
+from plate_base import request
+from plate_base import redirect, app, GET, POST, HEAD, PUT, DELETE
+
+
 from db.dbmanager import OrmManager
+
+
 
 
 @app.route('/admin')
@@ -69,22 +76,32 @@ def admin_logout():
     # TODO : implement
     return redirect("/admin/login")
 
-@app.route('/admin/login')
+@app.route('/admin/login', methods=[GET, POST])
 def admin_login():
-    from api.api_response_data import APIResponse
 
-    user = request.form['user'] if 'user' in request.form else None
-    password = request.form['password'] if 'password' in request.form else None
-
-
-
-    if user and password:
-        db_manager = OrmManager()
-        member = db_manager.select_member_by_user(user)
-        if member.password == password:
-            r = APIResponse(code=200, data=None).json
-            r.set_cookie('AUTH', value='values')
-            return r
+    if request.method == GET:
+        return render_template("login.html")
     else:
-        return APIResponse(code=401, data=None).json
+        from api.api_response_data import APIResponse
+        user = request.form['user'] if 'user' in request.form else None
+        password = request.form['password'] if 'password' in request.form else None
+
+        print(user)
+        print(password)
+
+        if user and password:
+            db_manager = OrmManager()
+            member = db_manager.select_member_by_user(user)
+            print(member.to_dict)
+            if member.password == password:
+                response = APIResponse(code=200, data=None).json
+
+                from commons.aes256 import AESCipher
+                import json
+                aes = AESCipher(_conf.encrypt.key)
+                response[0].set_cookie('AUTH', value=aes.encrypt(json.dumps(member.to_dict)))
+                return response
+        else:
+            return APIResponse(code=401, data=None).json
+
 

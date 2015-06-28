@@ -22,3 +22,7 @@ POST = 'POST'
 PUT = 'PUT'
 DELETE = 'DELETE'
 HEAD = 'HEAD'
+
+from commons.conf import Conf
+_conf = Conf.create_conf("plate.json")
+

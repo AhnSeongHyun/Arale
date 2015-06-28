@@ -78,13 +78,10 @@ class Member(Base):
     name = Column(String(20), nullable=False)
     password = Column(String(50), nullable=False)
 
-
-
     def __init__(self, user, password, name):
         self.user = user
         self.password = password
         self.name = name
-
 
     def __str__(self):
         return str(self.__dict__)
@@ -92,8 +89,7 @@ class Member(Base):
 
     @property
     def to_dict(self):
-        # TODO : IMPLEMENT
-        pass
+        return {'user':self.user, 'name':self.name}
 
 
 
