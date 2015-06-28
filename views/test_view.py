@@ -2,7 +2,7 @@
 __author__ = 'sh84.ahn@gmail.com'
 
 import traceback
-from board_base import *
+from plate_base import *
 
 
 @app.route('/test')
