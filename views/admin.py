@@ -71,5 +71,20 @@ def admin_logout():
 
 @app.route('/admin/login')
 def admin_login():
-    # TODO : implement
-    return render_template("login.html")
+    from api.api_response_data import APIResponse
+
+    user = request.form['user'] if 'user' in request.form else None
+    password = request.form['password'] if 'password' in request.form else None
+
+
+
+    if user and password:
+        db_manager = OrmManager()
+        member = db_manager.select_member_by_user(user)
+        if member.password == password:
+            r = APIResponse(code=200, data=None).json
+            r.set_cookie('AUTH', value='values')
+            return r
+    else:
+        return APIResponse(code=401, data=None).json
+

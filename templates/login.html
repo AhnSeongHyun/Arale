@@ -97,7 +97,8 @@
 <script>
     $("#submit").click(function(e){
 
-        $.post("/admin/login" { "email": email, "pwd":pwd },
+        $.post("/admin/login",
+                { "user": user, "pwd":pwd },
                 function(result){
                     if(result.meta.code==200) {
                         $("#write-form-modal").modal('hide');

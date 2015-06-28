@@ -7,6 +7,13 @@
             <h1 class="page-header">Member</h1>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <button type="button" class="btn btn-primary btn-sm" id="add-member">Add Member</button>
+        </div>
+    </div>
+    <br/>
     <div class="row">
         <div class="col-lg-12">
             <table data-toggle="table">
@@ -21,6 +28,7 @@
                 <tbody>
                 {% for r in result %}
                 <tr>
+                    <td> <input type="checkbox"> </td>
                     <td>{{r.id}}</td>
                     <td>{{r.user}}</td>
                     <td>{{r.name}}</td>
@@ -32,4 +40,67 @@
     </div>
 
 </div>
-    {% endblock %}
+
+
+<div class="modal fade" id="member-add-form-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h2>Register</h2>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control" placeholder="user" id="member-add-form-modal-user"/>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control" placeholder="name" id="member-add-form-modal-name"/>
+            </div>
+
+            <div class="modal-body">
+                <input type="password" class="form-control" placeholder="password" id="member-add-form-modal-password"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" >Close</button>
+                <button type="button" class="btn btn-primary" id="member-add-form-modal-save">Save changes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+{% endblock %}
+
+
+{% block script %}
+
+<script>
+    $("#add-member").click(function(){
+        $("#member-add-form-modal").modal('show');
+    });
+
+    $("#member-add-form-modal-save").click(function(){
+
+        var user = $("#member-add-form-modal-user").val();
+        var name = $("#member-add-form-modal-name").val();
+        var password = $("#member-add-form-modal-password").val();
+
+        $.post("/api/member",
+            { "user": user, "name":name, "password":password },
+            function(result){
+                if(result.meta.code==200) {
+                    $("#member-add-form-modal").modal('hide');
+                    location.reload();
+                }
+                else{
+                    alert("write fail");
+                }
+            },
+            "json"
+        );
+    });
+
+
+</script>
+
+
+{% endblock %}
