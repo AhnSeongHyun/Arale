@@ -220,6 +220,36 @@ class OrmManager(object):
             self.close()
             raise e
 
+    def insert_member(self, user, password, name=None):
+        try:
+            self.open()
+            member = Member(user, password, name)
+            self.session.add(member)
+            self.session.commit()
+            self.session.refresh(member)
+            self.session.close()
+            return member.id
+        except Exception as e:
+            self.close()
+            raise e
+
+
+    def select_member(self, start_index=0, paging_size=30, keyword=None):
+        try:
+            self.open()
+            q = self.session.query(Member)
+            if keyword:
+                q = q.filter(or_(Member.name.like("%" + keyword + "%"), Member.user.like("%" + keyword + "%")))
+
+            q = q.offset(start_index)
+            q = q.limit(paging_size)
+            result = q.all()
+            self.close()
+            return result
+        except Exception as e:
+            self.close()
+            raise e
+
 
     def select_member_by_user(self, user):
         try:
@@ -242,22 +272,6 @@ class OrmManager(object):
             self.close()
             raise e
 
-
-    def select_members(self, start_index=0, paging_size=30, keyword=None):
-        try:
-            self.open()
-            q = self.session.query(Member)
-            if keyword:
-                q = q.filter(or_(Member.name.like("%" + keyword + "%"), Member.user.like("%" + keyword + "%")))
-
-            q = q.offset(start_index)
-            q = q.limit(paging_size)
-            result = q.all()
-            self.close()
-            return result
-        except Exception as e:
-            self.close()
-            raise e
 
     def close(self):
         if self.session:

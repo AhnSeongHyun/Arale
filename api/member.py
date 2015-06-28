@@ -21,3 +21,18 @@ def auth():
 
     else:
         return APIResponse(code=401, data=None).json
+
+@app.route('/api/member',  methods=[POST])
+def register_member():
+
+    user = request.form['user'] if 'user' in request.form else None
+    password = request.form['password'] if 'password' in request.form else None
+    name = request.form['name'] if 'name' in request.form else None
+
+    if user and password:
+        db_manager = OrmManager()
+        member = db_manager.insert_member(user=user, password=password, name=name)
+        if member:
+            return APIResponse(code=200, data=None).json
+    else:
+        return APIResponse(code=401, data=None).json

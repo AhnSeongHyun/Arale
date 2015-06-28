@@ -5,21 +5,6 @@ __author__ = 'sh84.ahn@gmail.com'
 from board_base import *
 from db.dbmanager import OrmManager
 
-@app.route('/admin/login', methods=['GET', 'POST'])
-def login():
-    if request.method=='GET':
-        return render_template('login.html')
-    else:
-        from api.member import auth
-
-
-
-
-@app.route('/admin/logout')
-def logout():
-    return redirect('/admin/login')
-
-
 
 @app.route('/admin')
 def admin():
@@ -46,11 +31,10 @@ def admin_member():
     keyword = request.args.get("keyword", None)
 
     db_manager = OrmManager()
-    result = db_manager.select_members(start_index=start_index,
-                                       paging_size=paging_size,
-                                       keyword=keyword)
-
-    return render_template("member.html", title="ADMIN", result = result)
+    result = db_manager.select_member(start_index=start_index,
+                                        paging_size=paging_size,
+                                        keyword=keyword)
+    return render_template("member.html", title="ADMIN", result=result)
 
 
 
@@ -77,3 +61,15 @@ def admin_article():
 def admin_reply():
     # TODO : implement
     return render_template("reply.html", title="ADMIN")
+
+
+@app.route('/admin/logout')
+def admin_logout():
+    print("logtout")
+    # TODO : implement
+    return redirect("/admin/login")
+
+@app.route('/admin/login')
+def admin_login():
+    # TODO : implement
+    return render_template("login.html")
