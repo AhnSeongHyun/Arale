@@ -7,11 +7,7 @@ from plate_base import render_template
 from plate_base import request
 from plate_base import redirect, app, GET, POST, HEAD, PUT, DELETE
 
-
 from db.dbmanager import OrmManager
-
-
-
 
 @app.route('/admin')
 def admin():
