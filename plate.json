@@ -1,5 +1,9 @@
 {
-    "encrypt":{
-        "key" : "plate1234567890!"
+    "membership":{
+        "key":"plate1234567890!",
+        "url":"/admin/login",
+        "callback_url":"/admin"
     }
+
 }
+

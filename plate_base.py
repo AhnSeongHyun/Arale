@@ -23,8 +23,6 @@ PUT = 'PUT'
 DELETE = 'DELETE'
 HEAD = 'HEAD'
 
-
-
 import logging
 from logging.handlers import TimedRotatingFileHandler
 from logging import Formatter
@@ -37,3 +35,19 @@ logger.addHandler(file_handler)
 from commons.conf import Conf
 _conf = Conf.create_conf("plate.json")
 
+
+# Membership Setting
+from commons.membership import *
+init_membership(flask_app=app,
+                url=_conf.membership.url,
+                decrypt={'crypto':'AES',
+                         'key':_conf.membership.key},
+                cookie={'field':'AUTH',
+                        'logout_field':[{'field_name': 'AUTH', 'domain': '/'}]
+                },
+                callback={
+                    'url':_conf.membership.callback_url,
+                    'field':'returnurl',
+                    'etc':[]
+                }
+)

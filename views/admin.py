@@ -7,6 +7,8 @@ from plate_base import redirect, app, GET, POST, HEAD, PUT, DELETE
 from plate_base import logger
 
 from db.dbmanager import OrmManager
+from functools import wraps
+
 
 @app.route('/admin')
 def admin():
@@ -86,19 +88,15 @@ def admin_login():
         user = request.form['user'] if 'user' in request.form else None
         password = request.form['password'] if 'password' in request.form else None
 
-        print(user)
-        print(password)
-
         if user and password:
             db_manager = OrmManager()
             member = db_manager.select_member_by_user(user)
-            print(member.to_dict)
             if member.password == password:
                 response = APIResponse(code=200, data=None).json
 
                 from commons.aes256 import AESCipher
                 import json
-                aes = AESCipher(_conf.encrypt.key)
+                aes = AESCipher(_conf.membership.key)
                 response[0].set_cookie('AUTH', value=aes.encrypt(json.dumps(member.to_dict)))
                 return response
         else:
