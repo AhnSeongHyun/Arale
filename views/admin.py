@@ -1,16 +1,16 @@
 # -*- coding:utf-8 -*-
 __author__ = 'sh84.ahn@gmail.com'
-
-
 from plate_base import _conf
 from plate_base import render_template
 from plate_base import request
 from plate_base import redirect, app, GET, POST, HEAD, PUT, DELETE
+from plate_base import logger
 
 from db.dbmanager import OrmManager
 
 @app.route('/admin')
 def admin():
+    logger.dedug(request)
     start_index = request.args.get("start_index", 0)
     paging_size = request.args.get("paging_size", 30)
     keyword = request.args.get("keyword", None)
@@ -29,6 +29,7 @@ def admin():
 
 @app.route('/admin/member')
 def admin_member():
+    logger.dedug(request)
     start_index = request.args.get("start_index", 0)
     paging_size = request.args.get("paging_size", 30)
     keyword = request.args.get("keyword", None)
@@ -43,6 +44,7 @@ def admin_member():
 
 @app.route('/admin/article')
 def admin_article():
+    logger.dedug(request)
     start_index = request.args.get("start_index", 0)
     paging_size = request.args.get("paging_size", 30)
     keyword = request.args.get("keyword", None)
@@ -62,19 +64,21 @@ def admin_article():
 
 @app.route('/admin/reply')
 def admin_reply():
+    logger.dedug(request)
     # TODO : implement
     return render_template("reply.html", title="ADMIN")
 
 
 @app.route('/admin/logout')
 def admin_logout():
-    print("logtout")
+    logger.dedug(request)
+
     # TODO : implement
     return redirect("/admin/login")
 
 @app.route('/admin/login', methods=[GET, POST])
 def admin_login():
-
+    logger.dedug(request)
     if request.method == GET:
         return render_template("login.html")
     else:
