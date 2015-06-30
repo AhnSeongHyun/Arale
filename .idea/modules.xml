@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/flask-rest-board.iml" filepath="$PROJECT_DIR$/.idea/flask-rest-board.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/plate.iml" filepath="$PROJECT_DIR$/.idea/plate.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/plate.iml" filepath="$PROJECT_DIR$/.idea/plate.iml" />
     </modules>
   </component>
 </project>
