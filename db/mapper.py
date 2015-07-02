@@ -89,7 +89,7 @@ class Member(Base):
 
     @property
     def to_dict(self):
-        return {'user':self.user, 'name':self.name}
+        return {'id': self.id, 'user': self.user, 'name': self.name}
 
 
 

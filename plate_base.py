@@ -12,9 +12,14 @@ from flask import make_response
 from flask import jsonify
 from flask import render_template
 
+from commons.conf import Conf
+_conf = Conf.create_conf("plate.json")
 
-app = Flask(__name__, static_url_path = "", static_folder="bower_components")
-app.debug = True
+app = Flask(__name__, static_url_path="", static_folder="bower_components")
+app.config.update(
+    DEBUG=True,
+    SECRET_KEY=_conf.membership.key
+)
 
 #HTTP_METHOD
 GET = 'GET'
@@ -32,8 +37,6 @@ logger = logging.getLogger('plate_logger')
 logger.setLevel(logging.DEBUG)
 logger.addHandler(file_handler)
 
-from commons.conf import Conf
-_conf = Conf.create_conf("plate.json")
 
 
 # Membership Setting

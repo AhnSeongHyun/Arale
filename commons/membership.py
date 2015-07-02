@@ -57,6 +57,7 @@ def load_user_from_cookie(request):
         cookie_value = request.cookies.get(_sso.cookie_field)
         if cookie_value:
             auth_info = _decrypt_token(cookie_value)
+            print auth_info
             if auth_info:
                 return Member(auth_info)
             else:
