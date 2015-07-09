@@ -1,4 +1,8 @@
 {% extends "layout.html" %}
+{% block style %}
+<link href="{{ url_for('static', filename='/summernote/dist/summernote.css')}}" rel="stylesheet">
+{% endblock %}
+
 {% block page %}
 <div id="page-wrapper">
 
@@ -60,7 +64,8 @@
                 <input type="text" class="form-control" placeholder="title" id="write-form-modal-title"/>
             </div>
             <div class="modal-body">
-                <textarea type="text" class="form-control" placeholder="Insert Contents" id="write-form-modal-contents"></textarea>
+                <div id="summernote-new"></div>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal" >Close</button>
@@ -81,7 +86,8 @@
                 <input type="text" class="form-control" placeholder="title" id="modify-form-modal-title"/>
             </div>
             <div class="modal-body">
-                <textarea type="text" class="form-control" placeholder="Insert Contents" id="modify-form-modal-contents"></textarea>
+                <div id="summernote-modify"></div>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal" >Close</button>
@@ -96,7 +102,10 @@
 
 
 {% block script %}
+<script src="{{ url_for('static', filename='/summernote/dist/summernote.min.js')}}"></script>
+
 <script>
+
     $("#delete-article").click(function(){
 
         var checked = $("table").bootstrapTable('getSelections');
@@ -119,15 +128,31 @@
         $.getJSON( "/api/articles/"+article_id, function( result ) {
             $("#modify-form-modal-id").val(result.data.id);
             $("#modify-form-modal-title").val(result.data.title);
-            $("#modify-form-modal-contents").val(result.data.contents);
+
+            $('#summernote-modify').text(result.data.contents);
+            $('#summernote-modify').summernote({
+                height: 300,
+                minHeight: null,
+                maxHeight: null,
+                focus: true,
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']],
+                ]
+            });
             $("#modify-form-modal").modal('show');
+
         });
     }
 
     $("#modify-form-modal-save").click(function() {
         var id =    $("#modify-form-modal-id").val();
         var title =    $("#modify-form-modal-title").val();
-        var contents =    $("#modify-form-modal-contents").val();
+        var contents = $('#summernote-modify').code();
 
         $.ajax({
             url:'/api/articles/'+id,
@@ -148,6 +173,20 @@
     $("#write").click(function() {
         $("#write-form-modal-title").val("");
         $("#write-form-modal-contents").val("");
+        $('#summernote-new').summernote({
+            height: 300,
+            minHeight: null,
+            maxHeight: null,
+            focus: true,
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['font', ['strikethrough', 'superscript', 'subscript']],
+                ['fontsize', ['fontsize']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']],
+            ]
+        });
         $("#write-form-modal").modal('show');
     });
 
@@ -155,7 +194,7 @@
     $("#write-form-modal-save").click(function() {
 
         var title =    $("#write-form-modal-title").val();
-        var contents = $("#write-form-modal-contents").val();
+        var contents = $('#summernote-new').code();
 
         $.post("/api/articles", { "title": title, "contents":contents, "user_id":0 },
                 function(result){

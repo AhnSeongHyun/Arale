@@ -9,3 +9,4 @@ class Page(object):
     def __init__(self, title, active):
         self.title = title
         self.active = active 
+
