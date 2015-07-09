@@ -37,8 +37,6 @@ logger = logging.getLogger('plate_logger')
 logger.setLevel(logging.DEBUG)
 logger.addHandler(file_handler)
 
-
-
 # Membership Setting
 from commons.membership import *
 init_membership(flask_app=app,
@@ -46,7 +44,7 @@ init_membership(flask_app=app,
                 decrypt={'crypto':'AES',
                          'key':_conf.membership.key},
                 cookie={'field':'AUTH',
-                        'logout_field':[{'field_name': 'AUTH', 'domain': '/'}]
+                        'logout_field':[{'field_name': 'AUTH'}]
                 },
                 callback={
                     'url':_conf.membership.callback_url,

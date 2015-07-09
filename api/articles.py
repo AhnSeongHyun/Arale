@@ -8,7 +8,7 @@ from .api_response_data import APIResponse
 
 @app.route('/api/articles',  methods=[GET])
 def get_article_list():
-    logger.dedug(request)
+    logger.debug(request)
 
     try:
         start_index = request.args.get("start_index", 0)
@@ -29,7 +29,7 @@ def get_article_list():
 
 @app.route('/api/articles',  methods=[POST])
 def write_article():
-    logger.dedug(request)
+    logger.debug(request)
     try:
         db_manager = OrmManager()
         article_id = db_manager.insert_or_update_article(request.form)
@@ -41,7 +41,7 @@ def write_article():
 
 @app.route('/api/articles/<int:id>',  methods=[DELETE])
 def delete_article(id):
-    logger.dedug(request)
+    logger.debug(request)
     try:
         db_manager = OrmManager()
         db_manager.delete_article(id)
@@ -53,7 +53,7 @@ def delete_article(id):
 
 @app.route('/api/articles/<int:id>',  methods=[PUT])
 def modify_article(id):
-    logger.dedug(request)
+    logger.debug(request)
     try:
         db_manager = OrmManager()
         result = db_manager.update_article(id, request.form)
@@ -66,7 +66,7 @@ def modify_article(id):
 
 @app.route('/api/articles/<int:id>',  methods=[GET])
 def get_article(id):
-    logger.dedug(request)
+    logger.debug(request)
     try:
         db_manager = OrmManager()
         result = db_manager.select_article_by_id(id)

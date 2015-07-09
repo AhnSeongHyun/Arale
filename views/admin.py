@@ -5,7 +5,7 @@ from plate_base import render_template
 from plate_base import request
 from plate_base import redirect, app, GET, POST, HEAD, PUT, DELETE
 from plate_base import logging, logger
-from plate_base import login_required, current_member
+from plate_base import login_required, current_member, logout_member
 
 from db.dbmanager import OrmManager
 from functools import wraps
@@ -29,7 +29,7 @@ def admin():
         result[i].ctime = result[i].ctime.strftime("%Y/%m/%d %H:%M:%S")
         result[i].author = db_manager.select_member_by_id(result[i].user_id).name
 
-    return render_template("admin.html", title="ADMIN", result=result)
+    return render_template("admin.html", title="ADMIN", result=result, member=current_member)
 
 
 @app.route('/admin/member')
@@ -44,7 +44,7 @@ def admin_member():
     result = db_manager.select_member(start_index=start_index,
                                         paging_size=paging_size,
                                         keyword=keyword)
-    return render_template("member.html", title="ADMIN", result=result)
+    return render_template("member.html", title="ADMIN", result=result, member=current_member)
 
 
 
@@ -65,7 +65,7 @@ def admin_article():
         result[i].ctime = result[i].ctime.strftime("%Y/%m/%d %H:%M:%S")
         result[i].author = db_manager.select_member_by_id(result[i].user_id).name
 
-    return render_template("article.html", title="ADMIN", result=result)
+    return render_template("article.html", title="ADMIN", result=result, member=current_member)
 
 
 
@@ -74,19 +74,17 @@ def admin_article():
 def admin_reply():
     logger.debug(request)
     # TODO : implement
-    return render_template("reply.html", title="ADMIN")
+    return render_template("reply.html", title="ADMIN", member=current_member)
 
 
 @app.route('/admin/logout')
 @login_required
 def admin_logout():
     logger.debug(request)
+    return logout_member()
 
-    # TODO : implement
-    return redirect("/admin/login")
 
 @app.route('/admin/login', methods=[GET, POST])
-@login_required
 def admin_login():
     logger.debug(request)
     if request.method == GET:

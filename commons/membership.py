@@ -1,10 +1,7 @@
 # -*- coding:utf-8 -*-
 __author__ = 'sh84.ahn@gmail.com'
 
-# -*- coding:utf-8 -*-
-
 from plate_base import app
-
 from plate_base import request
 from plate_base import make_response
 from plate_base import redirect
@@ -16,7 +13,6 @@ from flask_login import current_user as current_member
 from flask_login import login_required
 from flask_login import logout_user
 from flask_login import UserMixin
-from flask_login import fresh_login_required
 
 _login_manager = LoginManager()
 _sso = None
@@ -78,8 +74,7 @@ def logout_member():
         logout_user()
         response = make_response(redirect(_sso.login_url))
         for logout_cookie_filed in _sso.logout_cookie_fields:
-            response.set_cookie(key=unicode(logout_cookie_filed['field_name']), value=u'',
-                                domain=logout_cookie_filed['domain'], path='/')
+            response.set_cookie(key=unicode(logout_cookie_filed['field_name']), value=u'', path='/')
 
         return response
     except Exception as e:
