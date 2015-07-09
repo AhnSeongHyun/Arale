@@ -13,7 +13,7 @@ from flask import jsonify
 from flask import render_template
 
 from commons.conf import Conf
-_conf = Conf.create_conf("plate.json")
+_conf = Conf.create_conf("config.json")
 
 app = Flask(__name__, static_url_path="", static_folder="bower_components")
 app.config.update(
@@ -31,9 +31,9 @@ HEAD = 'HEAD'
 import logging
 from logging.handlers import TimedRotatingFileHandler
 from logging import Formatter
-file_handler = TimedRotatingFileHandler(filename="./logs/plate.log", when="D", interval=1, encoding="utf-8")
+file_handler = TimedRotatingFileHandler(filename="./logs/arale.log", when="D", interval=1, encoding="utf-8")
 file_handler.setFormatter(Formatter("[%(process)d:%(processName)s:%(thread)d:%(threadName)s] %(asctime)s : %(message)s [in %(filename)s:%(lineno)d]"))
-logger = logging.getLogger('plate_logger')
+logger = logging.getLogger('arale_logger')
 logger.setLevel(logging.DEBUG)
 logger.addHandler(file_handler)
 

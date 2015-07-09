@@ -1,11 +1,11 @@
 # -*- coding:utf-8 -*-
 __author__ = 'sh84.ahn@gmail.com'
-from plate_base import _conf
-from plate_base import render_template
-from plate_base import request
-from plate_base import redirect, app, GET, POST, HEAD, PUT, DELETE
-from plate_base import logging, logger
-from plate_base import login_required, current_member, logout_member
+from arale_base import _conf
+from arale_base import render_template
+from arale_base import request
+from arale_base import redirect, app, GET, POST, HEAD, PUT, DELETE
+from arale_base import logging, logger
+from arale_base import login_required, current_member, logout_member
 
 from db.dbmanager import OrmManager
 from functools import wraps

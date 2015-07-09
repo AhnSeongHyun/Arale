@@ -1,1 +1,1 @@
-uwsgi --stop /tmp/flask-rest-board-master.pid
+uwsgi --stop /tmp/arale-master.pid

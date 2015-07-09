@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 __author__ = 'sh84.ahn@gmail.com'
 
-from plate_base import *
+from arale_base import *
 
 import api
 import views

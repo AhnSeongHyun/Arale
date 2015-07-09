@@ -1,6 +1,6 @@
 {
     "membership":{
-        "key":"plate1234567890!",
+        "key":"arale1234567890!",
         "url":"/admin/login",
         "callback_url":"/admin"
     }

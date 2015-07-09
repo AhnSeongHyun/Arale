@@ -1,1 +1,1 @@
-uwsgi flask-rest-board.ini
+uwsgi arale_uwsgi.ini

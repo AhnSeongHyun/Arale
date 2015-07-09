@@ -1,11 +1,11 @@
 # -*- coding:utf-8 -*-
 __author__ = 'sh84.ahn@gmail.com'
 
-from plate_base import app
-from plate_base import request
-from plate_base import make_response
-from plate_base import redirect
-from plate_base import logger
+from arale_base import app
+from arale_base import request
+from arale_base import make_response
+from arale_base import redirect
+from arale_base import logger
 
 import json
 from flask_login import LoginManager
