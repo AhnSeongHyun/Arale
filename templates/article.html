@@ -18,7 +18,7 @@
             <table data-toggle="table">
                 <thead>
                 <tr>
-                    <th> <input type="checkbox" id="checkbox-all"> </th>
+                    <th data-checkbox="true">  </th>
                     <th>id</th>
                     <th>title</th>
                     <th>contents</th>
@@ -30,7 +30,7 @@
                 {% for r in result %}
 
                 <tr>
-                    <td> <input type="checkbox"> </td>
+                    <td data-checkbox="true">  </td>
                     <td>{{r.id}}</td>
                     <td><a href="#" onclick="javascript:showArticle({{r.id}})">{{r.title}}</a></td>
                     <td>{{r.contents}}</td>
@@ -48,7 +48,7 @@
     <br/>
     <div class="row">
         <div class="col-lg-12">
-            <button type="button" class="btn btn-danger btn-sm" id="delete">Delete</button>
+            <button type="button" class="btn btn-danger btn-sm" id="delete-article">Delete</button>
         </div>
     </div>
 </div>
@@ -97,22 +97,23 @@
 
 {% block script %}
 <script>
+    $("#delete-article").click(function(){
 
-    $("#delete").click(function() {
-        $.ajax({
-            url:'/api/articles/'+id,
-            type:'DELETE',
-
-            success:function(){
-                location.reload();
-            },
-            error:function() {
-                alert("fail");
-            }
-        })
-
+        var checked = $("table").bootstrapTable('getSelections');
+        $.each(checked, function( key, value ) {
+            var id = value[1];
+            $.ajax({
+                url:'/api/articles/'+id,
+                type:'DELETE',
+                success:function(result){
+                    location.reload();
+                },
+                error:function(result) {
+                    alert("fail");
+                }
+            });
+        });
     });
-
 
     function showArticle(article_id){
         $.getJSON( "/api/articles/"+article_id, function( result ) {
@@ -160,12 +161,12 @@
                 function(result){
                     if(result.meta.code==200) {
                         $("#write-form-modal").modal('hide');
+                        location.reload();
                     }
                     else{
                         alert("write fail");
                     }
                 }, "json");
-
     });
 </script>
 

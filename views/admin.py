@@ -29,7 +29,7 @@ def admin():
         result[i].ctime = result[i].ctime.strftime("%Y/%m/%d %H:%M:%S")
         result[i].author = db_manager.select_member_by_id(result[i].user_id).name
 
-    return render_template("admin.html", title="ADMIN", result=result, member=current_member)
+    return render_template("admin.html", result=result, member=current_member)
 
 
 @app.route('/admin/member')
@@ -44,7 +44,7 @@ def admin_member():
     result = db_manager.select_member(start_index=start_index,
                                         paging_size=paging_size,
                                         keyword=keyword)
-    return render_template("member.html", title="ADMIN", result=result, member=current_member)
+    return render_template("member.html", result=result, member=current_member)
 
 
 
@@ -65,7 +65,7 @@ def admin_article():
         result[i].ctime = result[i].ctime.strftime("%Y/%m/%d %H:%M:%S")
         result[i].author = db_manager.select_member_by_id(result[i].user_id).name
 
-    return render_template("article.html", title="ADMIN", result=result, member=current_member)
+    return render_template("article.html",  result=result, member=current_member)
 
 
 
@@ -74,7 +74,7 @@ def admin_article():
 def admin_reply():
     logger.debug(request)
     # TODO : implement
-    return render_template("reply.html", title="ADMIN", member=current_member)
+    return render_template("reply.html",   member=current_member)
 
 
 @app.route('/admin/logout')

@@ -27,6 +27,20 @@ def auth():
         logger.exception(e)
         return APIResponse(code=500, data=None, msg=str(e)).json
 
+
+
+@app.route('/api/member/<int:id>',  methods=[DELETE])
+def delete_member(id):
+    logger.debug(request)
+    try:
+        db_manager = OrmManager()
+        db_manager.delete_member(id)
+        return APIResponse(code=200, data=None).json
+    except Exception as e:
+        logger.exception(e)
+        return APIResponse(code=500, data=None, msg=str(e)).json
+
+
 @app.route('/api/member',  methods=[POST])
 def register_member():
     logger.debug(request)

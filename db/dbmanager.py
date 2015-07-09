@@ -4,7 +4,7 @@ __author__ = 'sh84.ahn@gmail.com'
 
 import datetime
 from sqlalchemy import create_engine, desc
-from sqlalchemy import func 
+from sqlalchemy import func
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import or_
 from .mapper import Article, Reply, Member
@@ -14,39 +14,19 @@ CONNECTION_STRING = 'sqlite:///db/db.sqlite'
 
 class OrmManager(object):
 
-    session = None  
+    session = None
 
     def open(self):
         try:
             engine = create_engine(CONNECTION_STRING)
-            Session = sessionmaker(bind=engine) 
+            Session = sessionmaker(bind=engine)
             self.session = Session()
         except Exception as e:
             raise e
 
-    def insert_article(self, data):
-
-        try:
-
-            self.open()
-
-            article = Article(title=data['title'],
-                              contents=data['contents'],
-                              ctime=datetime.datetime.now(),
-                              mtime=None,
-                              user_id=data['user_id'])
-
-            self.session.add(article)
-            self.session.commit()
-            self.session.refresh(article)
-            self.session.close()
-            return article.id
-        except Exception as e:
-            self.close()
-            raise e
-
     def insert_or_update_article(self, data):
         try:
+            print data
             self.open()
             article = Article(title=data['title'],
                               contents=data['contents'],
@@ -54,22 +34,29 @@ class OrmManager(object):
                               mtime=None,
                               user_id=data['user_id'])
 
-            exist_article = self.session.query(Article).filter(Article.id == id).scalar()
-            if exist_article: #modify
+            is_new_article = True
+            if 'id' in data:
+                exist_article = self.session.query(Article).filter(Article.id == data['user_id']).scalar()
+                if exist_article: #modify
+                    is_new_article = False
+
+            if is_new_article:
+                self.session.add(article)
+
+            else:
+
                 exist_article.title = article.title
                 exist_article.contents = article.contents
                 exist_article.ctime = article.ctime
                 exist_article.mtime = article.mtime
                 exist_article.user_id = article.user_id
 
-            else:
-                self.session.add(article)
-
             self.session.commit()
             self.session.refresh(article)
             self.session.close()
             return article.id
         except Exception as e:
+            print e
             self.close()
             raise e
 
@@ -272,9 +259,22 @@ class OrmManager(object):
             self.close()
             raise e
 
+    def delete_member(self, user_id):
+        try:
+            self.open()
+            member = self.session.query(Member).filter(Member.id == user_id).one()
+            self.session.delete(member)
+            self.session.commit()
+            self.session.close()
+
+        except Exception as e:
+            self.close()
+            raise e
+
+
 
     def close(self):
         if self.session:
-                self.session.close()
+            self.session.close()
 
 

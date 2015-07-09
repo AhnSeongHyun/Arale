@@ -32,7 +32,7 @@ def write_article():
     logger.debug(request)
     try:
         db_manager = OrmManager()
-        article_id = db_manager.insert_or_update_article(request.form)
+        article_id = db_manager.insert_or_update_article(request.form.to_dict())
         return APIResponse(code=200, data={'article_id': article_id}).json
     except Exception as e:
         logger.exception(e)
@@ -56,8 +56,7 @@ def modify_article(id):
     logger.debug(request)
     try:
         db_manager = OrmManager()
-        result = db_manager.update_article(id, request.form)
-        print(result)
+        result = db_manager.update_article(id, request.form.to_dict())
         return APIResponse(code=200, data=result.to_dict).json
     except Exception as e:
         logger.exception(e)
