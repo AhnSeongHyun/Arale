@@ -1,25 +1,30 @@
-# NOW DEVELOPING # 
+# NOW DEVELOPING #
 
 ### Arale ###
 
 - Simple CMS  based on Flask, Bootstrap.
-- Support REST API. 
+- Support REST API.
 
 ### API ###
 
+#### Response Format(JSON) ####
+
 #### Article ####
-- GET :/articles       
-- POST:/articles       
-- DEL :/articles/<id> 
-- PUT :/articles/<id> 
-- GET :/articles/<id>  
+
+| method        | url             | desc                 |
+| ------------- | --------------- |--------------------- |
+| GET           | /articles       | get all articles     |
+| POST          | /articles       | add article          |
+| DELETE        | /articles</id>  | delete article by id |
+| PUT           | /articles/<id>  | update article by id |
+| GET           | /articles/<id>  | get article by id    |
 
 #### Reply ####
--
+
 
 
 #### Member ####
-- POST : /api/member/auth  
 
 
-### ADMIN ### 
+
+### ADMIN ###

@@ -17,10 +17,8 @@
     <!-- MetisMenu CSS -->
     <link href="{{ url_for('static', filename='/metisMenu/dist/metisMenu.min.css')}}" rel="stylesheet">
 
-
     <!-- Timeline CSS -->
     <link href="{{ url_for('static', filename='/startbootstrap-sb-admin-2/dist/css/timeline.css')}}" rel="stylesheet">
-
 
     <!-- Custom CSS -->
     <link href="{{ url_for('static', filename='/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css')}}" rel="stylesheet">
@@ -41,33 +39,30 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <!-- bootstrap-table CSS -->
-    <link href="{{ url_for('static', filename='/bootstrap-table/dist/bootstrap-table.css')}}" rel="stylesheet">
 
 </head>
 
 <body>
-
-<div class="col-md-offset-4 col-md-4">
-    <div class="login-panel panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">Sign In</h3>
-        </div>
-        <div class="panel-body">
-                <fieldset>
-                    <div class="form-group">
-                        <input class="form-control" placeholder="E-mail" name="email" type="email" id="user" autofocus="">
+        <div class="col-md-offset-4 col-md-4">
+            <div class="login-panel panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Arale</h3>
+                </div>
+                <div class="panel-body">
+                    <fieldset>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="E-mail" name="email" type="email" id="user" autofocus="">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="Password" name="password" type="password" id="password" value="">
+                        </div>
+                        <!-- Change this to a button or input when using this as a form -->
+                        <button id="submit" class="btn btn-sm btn-success" onclick="login();">Login</button>
+                    </fieldset>
                     </div>
-                    <div class="form-group">
-                        <input class="form-control" placeholder="Password" name="password" type="password" id="password" value="">
-                    </div>
-                    <!-- Change this to a button or input when using this as a form -->
-                    <button id="submit" class="btn btn-sm btn-success" onclick="login();">Login</button>
-                </fieldset>
-
+                </div>
+            </div>
         </div>
-    </div>
-</div>
 
 <!-- jQuery -->
 
@@ -83,9 +78,6 @@
 <script src="{{ url_for('static', filename='/raphael/raphael-min.js')}}"></script>
 <script src="{{ url_for('static', filename='/morrisjs/morris.min.js')}}"></script>
 
-<!-- bootstrap-table JavaScript -->
-<script src="{{ url_for('static', filename='/bootstrap-table/dist/bootstrap-table.js')}}"></script>
-
 <!-- Custom Theme JavaScript -->
 <script src="{{ url_for('static', filename='/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js')}}"></script>
 <script>
@@ -100,12 +92,11 @@
                         location.href = "/admin"
                     }
                     else {
+                        alert("confirm your account.");
                         location.href = "/admin/login"
                     }
                 }, "json");
-
     }
 </script>
 </body>
 </html>
-

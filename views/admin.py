@@ -14,7 +14,7 @@ from functools import wraps
 @app.route('/admin')
 @login_required
 def admin():
-    
+
     logger.debug(str(request))
     start_index = request.args.get("start_index", 0)
     paging_size = request.args.get("paging_size", 30)
@@ -105,7 +105,7 @@ def admin_login():
                 aes = AESCipher(_conf.membership.key)
                 response[0].set_cookie('AUTH', value=aes.encrypt(json.dumps(member.to_dict)))
                 return response
+            else:
+                return APIResponse(code=401, data=None).json
         else:
-            return APIResponse(code=401, data=None).json
-
-
+            return APIResponse(code=400, data=None).json
