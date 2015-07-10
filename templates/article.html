@@ -8,7 +8,7 @@
 
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">article</h1>
+            <h1 class="page-header">Article</h1>
         </div>
     </div>
     <div class="row">
@@ -23,7 +23,7 @@
                 <thead>
                 <tr>
                     <th data-checkbox="true">  </th>
-                    <th>id</th>
+                    <th class="col-sm-1">id</th>
                     <th>title</th>
                     <th>contents</th>
                     <th>create time</th>
@@ -37,7 +37,11 @@
                     <td data-checkbox="true">  </td>
                     <td>{{r.id}}</td>
                     <td><a href="#" onclick="javascript:showArticle({{r.id}})">{{r.title}}</a></td>
-                    <td>{{r.contents}}</td>
+                    <td>
+                        {% autoescape false %}
+                        {{r.contents}}
+                        {% endautoescape %}
+                    </td>
                     <td>{{r.ctime}}</td>
                     <td>{{r.author}}</td>
                 </tr>
@@ -129,7 +133,6 @@
             $("#modify-form-modal-id").val(result.data.id);
             $("#modify-form-modal-title").val(result.data.title);
 
-            $('#summernote-modify').text(result.data.contents);
             $('#summernote-modify').summernote({
                 height: 300,
                 minHeight: null,
@@ -144,6 +147,7 @@
                     ['height', ['height']],
                 ]
             });
+            $('#summernote-modify').code(result.data.contents);
             $("#modify-form-modal").modal('show');
 
         });

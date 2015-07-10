@@ -26,7 +26,6 @@ class OrmManager(object):
 
     def insert_or_update_article(self, data):
         try:
-            print data
             self.open()
             article = Article(title=data['title'],
                               contents=data['contents'],
@@ -69,8 +68,12 @@ class OrmManager(object):
 
             article = self.session.query(Article).filter(Article.id == id).one()
 
-            article.title = data['title']
-            article.contents = data['contents']
+            if 'title' in data:
+                article.title = data['title']
+
+            if 'contents' in data:
+                article.contents = data['contents']
+
             article.mtime = datetime.datetime.now()
             self.session.commit()
             result = self.session.query(Article).filter(Article.id == id).one()

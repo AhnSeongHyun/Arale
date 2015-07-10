@@ -30,8 +30,6 @@ class Article(Base):
 
     @property
     def to_dict(self):
-
-
         if self.mtime:
             mtime_value = self.mtime.strftime("%Y/%m/%d %H:%M:%S")
         else:

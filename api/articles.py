@@ -16,10 +16,11 @@ def get_article_list():
         keyword = request.args.get("keyword", None)
 
         db_manager = OrmManager()
-        result = db_manager.select_articles(start_index=start_index,
+        articles = db_manager.select_articles(start_index=start_index,
                                             paging_size=paging_size,
                                             keyword=keyword)
 
+        result = [a.to_dict for a in articles]
         return APIResponse(code=200, data=result).json
     except Exception as e:
         logger.exception(e)
@@ -74,6 +75,3 @@ def get_article(id):
     except Exception as e:
         logger.exception(e)
         return APIResponse(code=500, data=None, msg=str(e)).json
-
-
-
