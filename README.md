@@ -5,26 +5,35 @@
 - Simple CMS  based on Flask, Bootstrap.
 - Support REST API.
 
-### API ###
-
 #### Response Format(JSON) ####
 
-#### Article ####
+- now writing
+
+#### API ####
+
+##### Article #####
 
 | method        | url             | desc                 |
 | ------------- | --------------- |--------------------- |
 | GET           | /articles       | get all articles     |
 | POST          | /articles       | add article          |
-| DELETE        | /articles</id>  | delete article by id |
-| PUT           | /articles/<id>  | update article by id |
-| GET           | /articles/<id>  | get article by id    |
+| DELETE        | /articles/&lt;id&gt;  | delete article by id |
+| PUT           | /articles/&lt;id&gt;  | update article by id |
+| GET           | /articles/&lt;id&gt;   | get article by id    |
 
-#### Reply ####
+##### Reply #####
 
+- now writing
 
+##### Member #####
 
-#### Member ####
-
-
+- now writing
 
 ### ADMIN ###
+
+
+
+
+### License ###
+
+### Contribution ###
