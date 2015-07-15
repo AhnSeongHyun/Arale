@@ -134,9 +134,7 @@ class OrmManager(object):
             raise e
 
     def insert_reply(self, data):
-
         try:
-
             self.open()
             reply = Reply(article_id=data['article_id'],
                           contents=data['contents'],
@@ -244,7 +242,7 @@ class OrmManager(object):
     def select_member_by_user(self, user):
         try:
             self.open()
-            member = self.session.query(Member).filter(Member.user == user).one()
+            member = self.session.query(Member).filter(Member.user == user).scalar()
             self.close()
             return member
         except Exception as e:
@@ -274,10 +272,6 @@ class OrmManager(object):
             self.close()
             raise e
 
-
-
     def close(self):
         if self.session:
             self.session.close()
-
-

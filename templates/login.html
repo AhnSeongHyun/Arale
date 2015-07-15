@@ -85,17 +85,18 @@
         var user = $("#user").val();
         var password = $("#password").val();
 
-        $.post("/admin/login",
-                { "user": user, "password": password },
-                function (result) {
-                    if (result.meta.code == 200) {
-                        location.href = "/admin"
-                    }
-                    else {
-                        alert("confirm your account.");
-                        location.href = "/admin/login"
-                    }
-                }, "json");
+        $.ajax({
+            url:'/admin/login',
+            type:'POST',
+            data:{"user": user, "password": password},
+            success:function(result){
+                location.href = "/admin"
+            },
+            error:function(result) {
+                alert("confirm your account.");
+                location.href = "/admin/login"
+            }
+        });
     }
 </script>
 </body>

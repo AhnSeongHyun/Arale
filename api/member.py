@@ -16,11 +16,10 @@ def auth():
         if user and password:
             db_manager = OrmManager()
             member = db_manager.select_member_by_user(user)
-            if member.password == password:
+            if member and member.password == password:
                 return APIResponse(code=200, data=None).json
             else:
                 return APIResponse(code=401, data=None).json
-
         else:
             return APIResponse(code=401, data=None).json
     except Exception as e:

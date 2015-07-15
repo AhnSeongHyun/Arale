@@ -97,9 +97,8 @@ def admin_login():
         if user and password:
             db_manager = OrmManager()
             member = db_manager.select_member_by_user(user)
-            if member.password == password:
-                response = APIResponse(code=200, data=None).json
-
+            if member and member.password == password:
+                response = APIResponse(code=200, data=None).json 
                 from commons.aes256 import AESCipher
                 import json
                 aes = AESCipher(_conf.membership.key)
