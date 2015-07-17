@@ -2,9 +2,11 @@
 __author__ = 'sh84.ahn@gmail.com'
 
 from arale_base import *
+from arale_base import _conf
 from db.dbmanager import OrmManager
 from .api_response_data import APIResponse
 
+db_manager = OrmManager(host=_conf.database.host, port=_conf.database.port, user=_conf.database.user, password=_conf.database.password, db=_conf.database.db)
 
 @app.route('/api/member/auth',  methods=[POST])
 def auth():
@@ -14,7 +16,7 @@ def auth():
         password = request.form['password'] if 'password' in request.form else None
 
         if user and password:
-            db_manager = OrmManager()
+
             member = db_manager.select_member_by_user(user)
             if member and member.password == password:
                 return APIResponse(code=200, data=None).json
@@ -32,7 +34,6 @@ def auth():
 def delete_member(id):
     logger.debug(request)
     try:
-        db_manager = OrmManager()
         db_manager.delete_member(id)
         return APIResponse(code=200, data=None).json
     except Exception as e:
@@ -50,7 +51,6 @@ def register_member():
         name = request.form['name'] if 'name' in request.form else None
 
         if user and password:
-            db_manager = OrmManager()
             member = db_manager.insert_member(user=user, password=password, name=name)
             if member:
                 return APIResponse(code=200, data=None).json

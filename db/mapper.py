@@ -96,9 +96,10 @@ def create_database():
     from sqlalchemy.orm import Session
     from sqlalchemy import create_engine
 
-    engine = create_engine('sqlite:///db.sqlite')
+    engine = create_engine('mysql+pymysql://ash84:ash84@ash84.net:3306/Arale?charset=utf8&use_unicode=1')
     Base.metadata.create_all(engine)
 
 
-#create_database()
-
+# if __name__ == '__main__':
+# Run to init
+#     create_database()

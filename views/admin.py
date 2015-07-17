@@ -10,6 +10,8 @@ from arale_base import login_required, current_member, logout_member
 from db.dbmanager import OrmManager
 from functools import wraps
 
+db_manager = OrmManager(host=_conf.database.host, port=_conf.database.port, user=_conf.database.user, password=_conf.database.password, db=_conf.database.db)
+
 
 @app.route('/admin')
 @login_required
@@ -20,7 +22,7 @@ def admin():
     paging_size = request.args.get("paging_size", 30)
     keyword = request.args.get("keyword", None)
 
-    db_manager = OrmManager()
+
     result = db_manager.select_articles(start_index=start_index,
                                         paging_size=paging_size,
                                         keyword=keyword)
@@ -40,7 +42,6 @@ def admin_member():
     paging_size = request.args.get("paging_size", 30)
     keyword = request.args.get("keyword", None)
 
-    db_manager = OrmManager()
     result = db_manager.select_member(start_index=start_index,
                                         paging_size=paging_size,
                                         keyword=keyword)
@@ -51,12 +52,11 @@ def admin_member():
 @app.route('/admin/article')
 @login_required
 def admin_article():
-    logger.debug(request)
+
     start_index = request.args.get("start_index", 0)
     paging_size = request.args.get("paging_size", 30)
     keyword = request.args.get("keyword", None)
 
-    db_manager = OrmManager()
     result = db_manager.select_articles(start_index=start_index,
                                         paging_size=paging_size,
                                         keyword=keyword)
@@ -65,28 +65,35 @@ def admin_article():
         result[i].ctime = result[i].ctime.strftime("%Y/%m/%d %H:%M:%S")
         result[i].author = db_manager.select_member_by_id(result[i].user_id).name
 
-    return render_template("article.html",  result=result, member=current_member)
+    return render_template("article.html", result=result, member=current_member)
 
 
 
 @app.route('/admin/reply')
 @login_required
 def admin_reply():
-    logger.debug(request)
-    # TODO : implement
-    return render_template("reply.html",   member=current_member)
+    start_index = request.args.get("start_index", 0)
+    paging_size = request.args.get("paging_size", 30)
+    keyword = request.args.get("keyword", None)
+
+    result = db_manager.select_reply(start_index=start_index,
+                                     paging_size=paging_size,
+                                     keyword=keyword)
+
+    for i, r in enumerate(result):
+        result[i].ctime = result[i].ctime.strftime("%Y/%m/%d %H:%M:%S")
+
+    return render_template("reply.html", result=result, member=current_member)
 
 
 @app.route('/admin/logout')
 @login_required
 def admin_logout():
-    logger.debug(request)
     return logout_member()
 
 
 @app.route('/admin/login', methods=[GET, POST])
 def admin_login():
-    logger.debug(request)
     if request.method == GET:
         return render_template("login.html")
     else:
@@ -95,7 +102,6 @@ def admin_login():
         password = request.form['password'] if 'password' in request.form else None
 
         if user and password:
-            db_manager = OrmManager()
             member = db_manager.select_member_by_user(user)
             if member and member.password == password:
                 response = APIResponse(code=200, data=None).json 

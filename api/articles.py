@@ -2,9 +2,16 @@
 __author__ = 'sh84.ahn@gmail.com'
 
 from arale_base import *
+from arale_base import _conf
+
 from db.dbmanager import OrmManager
 from .api_response_data import APIResponse
 
+db_manager = OrmManager(host=_conf.database.host,
+                        port=_conf.database.port,
+                        user=_conf.database.user,
+                        password=_conf.database.password,
+                        db=_conf.database.db)
 
 @app.route('/api/articles',  methods=[GET])
 def get_article_list():
@@ -15,7 +22,6 @@ def get_article_list():
         paging_size = request.args.get("paging_size", 30)
         keyword = request.args.get("keyword", None)
 
-        db_manager = OrmManager()
         articles = db_manager.select_articles(start_index=start_index,
                                             paging_size=paging_size,
                                             keyword=keyword)
@@ -32,7 +38,6 @@ def get_article_list():
 def write_article():
     logger.debug(request)
     try:
-        db_manager = OrmManager()
         article_id = db_manager.insert_or_update_article(request.form.to_dict())
         return APIResponse(code=200, data={'article_id': article_id}).json
     except Exception as e:
@@ -44,7 +49,6 @@ def write_article():
 def delete_article(id):
     logger.debug(request)
     try:
-        db_manager = OrmManager()
         db_manager.delete_article(id)
         return APIResponse(code=200, data=None).json
     except Exception as e:
@@ -56,7 +60,6 @@ def delete_article(id):
 def modify_article(id):
     logger.debug(request)
     try:
-        db_manager = OrmManager()
         result = db_manager.update_article(id, request.form.to_dict())
         return APIResponse(code=200, data=result.to_dict).json
     except Exception as e:
@@ -68,7 +71,6 @@ def modify_article(id):
 def get_article(id):
     logger.debug(request)
     try:
-        db_manager = OrmManager()
         result = db_manager.select_article_by_id(id)
 
         return APIResponse(code=200, data=result.to_dict).json

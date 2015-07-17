@@ -3,7 +3,16 @@
         "key":"arale1234567890!",
         "url":"/admin/login",
         "callback_url":"/admin"
+    },
+    "database":{
+        "host":"ash84.net",
+        "port":3306,
+        "user":"ash84",
+        "password":"ash84",
+        "db":"Arale"
     }
+
+
 
 }
 

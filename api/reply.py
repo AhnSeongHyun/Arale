@@ -2,15 +2,16 @@
 __author__ = 'sh84.ahn@gmail.com'
 
 from arale_base import *
+from arale_base import _conf
 from db.dbmanager import OrmManager
 from .api_response_data import APIResponse
 
+db_manager = OrmManager(host=_conf.database.host, port=_conf.database.port, user=_conf.database.user, password=_conf.database.password, db=_conf.database.db)
 
 @app.route('/api/reply',  methods=[POST])
 def write_reply():
     logger.debug(request)
     try:
-        db_manager = OrmManager()
         reply_id = db_manager.insert_reply(request.form)
         return APIResponse(code=200, data={'reply_id': reply_id}).json
 
@@ -23,7 +24,6 @@ def write_reply():
 def delete_reply(id):
     logger.debug(request)
     try:
-        db_manager = OrmManager()
         db_manager.delete_reply(id)
         return APIResponse(code=200, data=None).json
     except Exception as e:
@@ -35,7 +35,6 @@ def delete_reply(id):
 def modify_reply(id):
     logger.debug(request)
     try:
-        db_manager = OrmManager()
         result = db_manager.update_reply(id, request.form)
         return APIResponse(code=200, data=result.to_dict).json
     except Exception as e:
@@ -46,7 +45,6 @@ def modify_reply(id):
 def get_reply(id):
     logger.debug(request)
     try:
-        db_manager = OrmManager()
         result = db_manager.select_reply_by_id(id)
         return APIResponse(code=200, data=result).json
     except Exception as e:
@@ -59,7 +57,6 @@ def get_reply_by_article():
     try:
         article_id = request.args.get("article_id", None)
         if article_id:
-            db_manager = OrmManager()
             result = db_manager.select_article_by_id(article_id)
             return APIResponse(code=200, data=result).json
         else:

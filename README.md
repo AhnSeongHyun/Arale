@@ -23,7 +23,14 @@
 
 ##### Reply #####
 
-- now writing
+| method        | url             | desc                 |
+| ------------- | --------------- |--------------------- |
+
+| POST          | /reply       | add reply          |
+| DELETE        | /articles/&lt;id&gt;  | delete article by id |
+| PUT           | /articles/&lt;id&gt;  | update article by id |
+| GET           | /articles/&lt;id&gt;   | get article by id    |
+
 
 ##### Member #####
 

@@ -3,25 +3,41 @@ __author__ = 'sh84.ahn@gmail.com'
 
 
 import datetime
+from arale_base import logger
 from sqlalchemy import create_engine, desc
 from sqlalchemy import func
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import or_
 from .mapper import Article, Reply, Member
 
-CONNECTION_STRING = 'sqlite:///db/db.sqlite'
-
-
 class OrmManager(object):
 
     session = None
+    connection_string = None
+
+    host = None
+    user = None
+    pasword = None
+    db = None
+    port = 3306
+
+
+    def __init__(self, host=None, port=3306, user=None, password=None, db=None):
+        self.host = host
+        self.user = user
+        self.password = password
+        self.db = db
+        self.port = port
+
+        self.connection_string = 'mysql+pymysql://'+self.user +':'+self.password + '@' + self.host+':'+str(self.port)+'/' +self.db
 
     def open(self):
         try:
-            engine = create_engine(CONNECTION_STRING)
+            engine = create_engine(self.connection_string)
             Session = sessionmaker(bind=engine)
             self.session = Session()
         except Exception as e:
+            logger.exception(e)
             raise e
 
     def insert_or_update_article(self, data):
@@ -36,7 +52,7 @@ class OrmManager(object):
             is_new_article = True
             if 'id' in data:
                 exist_article = self.session.query(Article).filter(Article.id == data['user_id']).scalar()
-                if exist_article: #modify
+                if exist_article:  # modify
                     is_new_article = False
 
             if is_new_article:
@@ -55,17 +71,13 @@ class OrmManager(object):
             self.session.close()
             return article.id
         except Exception as e:
-            print e
+            logger.exception(e)
             self.close()
             raise e
 
-
-
     def update_article(self, id, data):
         try:
-
             self.open()
-
             article = self.session.query(Article).filter(Article.id == id).one()
 
             if 'title' in data:
@@ -80,7 +92,7 @@ class OrmManager(object):
             self.close()
             return result
         except Exception as e:
-
+            logger.exception(e)
             self.close()
             raise e
 
@@ -93,6 +105,7 @@ class OrmManager(object):
             self.session.close()
 
         except Exception as e:
+            logger.exception(e)
             self.close()
             raise e
 
@@ -103,7 +116,7 @@ class OrmManager(object):
             self.close()
             return article
         except Exception as e:
-
+            logger.exception(e)
             self.close()
             raise e
 
@@ -121,6 +134,7 @@ class OrmManager(object):
             self.close()
             return result
         except Exception as e:
+            logger.exception(e)
             self.close()
             raise e
 
@@ -130,6 +144,7 @@ class OrmManager(object):
             total_count = self.session.query(func.count(Article.id)).scalar()
             return total_count
         except Exception as e:
+            logger.exception(e)
             self.close()
             raise e
 
@@ -148,6 +163,7 @@ class OrmManager(object):
             self.session.close()
             return reply.id
         except Exception as e:
+            logger.exception(e)
             self.close()
             raise e
 
@@ -162,6 +178,7 @@ class OrmManager(object):
             self.close()
             return result
         except Exception as e:
+            logger.exception(e)
             self.close()
             raise e
 
@@ -174,6 +191,25 @@ class OrmManager(object):
             self.session.close()
 
         except Exception as e:
+            logger.exception(e)
+            self.close()
+            raise e
+
+    def select_reply(self, start_index=0, paging_size=30, keyword=None):
+        try:
+            self.open()
+            q = self.session.query(Reply)
+            if keyword:
+                q = q.filter(or_(Reply.contents.like("%" + keyword + "%")))
+
+            q = q.order_by(desc(Reply.ctime))
+            q = q.offset(start_index)
+            q = q.limit(paging_size)
+            result = q.all()
+            self.close()
+            return result
+        except Exception as e:
+            logger.exception(e)
             self.close()
             raise e
 
@@ -185,6 +221,7 @@ class OrmManager(object):
             self.close()
             return reply
         except Exception as e:
+            logger.exception(e)
             self.close()
             raise e
 
@@ -196,6 +233,7 @@ class OrmManager(object):
             self.close()
             return replies
         except Exception as e:
+            logger.exception(e)
             self.close()
             raise e
 
@@ -205,6 +243,7 @@ class OrmManager(object):
             total_count = self.session.query(func.count(Reply.id)).filter(Reply.article_id == article_id).scalar()
             return total_count
         except Exception as e:
+            logger.exception(e)
             self.close()
             raise e
 
@@ -218,6 +257,7 @@ class OrmManager(object):
             self.session.close()
             return member.id
         except Exception as e:
+            logger.exception(e)
             self.close()
             raise e
 
@@ -235,6 +275,7 @@ class OrmManager(object):
             self.close()
             return result
         except Exception as e:
+            logger.exception(e)
             self.close()
             raise e
 
@@ -246,6 +287,7 @@ class OrmManager(object):
             self.close()
             return member
         except Exception as e:
+            logger.exception(e)
             self.close()
             raise e
 
@@ -253,22 +295,24 @@ class OrmManager(object):
 
         try:
             self.open()
-            member = self.session.query(Member).filter(Member.id == user_id).one()
+            member = self.session.query(Member).filter(Member.id == user_id).scalar()
             self.close()
             return member
         except Exception as e:
+            logger.exception(e)
             self.close()
             raise e
 
     def delete_member(self, user_id):
         try:
             self.open()
-            member = self.session.query(Member).filter(Member.id == user_id).one()
+            member = self.session.query(Member).filter(Member.id == user_id).scalar()
             self.session.delete(member)
             self.session.commit()
             self.session.close()
 
         except Exception as e:
+            logger.exception(e)
             self.close()
             raise e
 
