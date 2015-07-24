@@ -217,7 +217,7 @@ class OrmManager(object):
     def select_reply_by_id(self, id):
         try:
             self.open()
-            reply = self.session.query(Reply).filter(Reply.id == id).one()
+            reply = self.session.query(Reply).filter(Reply.id == id).scalar()
             self.close()
             return reply
         except Exception as e:

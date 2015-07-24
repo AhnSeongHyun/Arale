@@ -25,11 +25,10 @@
 
 | method        | url             | desc                 |
 | ------------- | --------------- |--------------------- |
-
-| POST          | /reply       | add reply          |
-| DELETE        | /articles/&lt;id&gt;  | delete article by id |
-| PUT           | /articles/&lt;id&gt;  | update article by id |
-| GET           | /articles/&lt;id&gt;   | get article by id    |
+| POST          | /reply           | add reply          |
+| DELETE        | /reply/&lt;id&gt;  | delete reply by id |
+| PUT           | /reply/&lt;id&gt;  | update reply by id |
+| GET           | /reply/&lt;id&gt;   | get reply by id    |
 
 
 ##### Member #####

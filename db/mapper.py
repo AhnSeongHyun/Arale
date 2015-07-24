@@ -21,7 +21,7 @@ class Article(Base):
     def __init__(self, title, contents, ctime, mtime, user_id):
         self.title = title
         self.contents = contents
-        self.ctime = ctime 
+        self.ctime = ctime
         self.mtime = mtime
         self.user_id = user_id
 
@@ -62,12 +62,18 @@ class Reply(Base):
     def __str__(self):
         return str(self.__dict__)
 
-
     @property
     def to_dict(self):
-        # TODO : IMPLEMENT
-        pass
-
+        if self.mtime:
+            mtime_value = self.mtime.strftime("%Y/%m/%d %H:%M:%S")
+        else:
+            mtime_value = self.mtime
+        return {'id': self.id,
+                'article_id': self.article_id,
+                'contents': self.contents,
+                'ctime': self.ctime.strftime("%Y/%m/%d %H:%M:%S"),
+                'mtime': mtime_value,
+                'parent_reply_id': self.parent_reply_id}
 
 class Member(Base):
     __tablename__ = 'member'
